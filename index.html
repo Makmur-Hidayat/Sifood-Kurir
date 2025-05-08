@@ -9,12 +9,17 @@
       margin: 0;
       font-family: 'Arial', sans-serif;
       background: #f6f6f6;
+      padding-bottom: 20px;
     }
 
     #map {
-      width: 100%;
-      height: 500px;
-    }
+  width: 90%;
+  max-width: 500px;
+  height: 300px;
+  margin: 20px auto;
+  border-radius: 12px;
+  overflow: hidden;
+}
 
     .container {
       max-width: 500px;
@@ -64,23 +69,27 @@
     }
 
     .layanan {
-      display: flex;
-      justify-content: space-between;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
       margin-bottom: 12px;
     }
 
     .layanan button {
-      flex: 1;
-      margin: 5px;
-      padding: 18px;
+      padding: 14px 8px;
       border: none;
       border-radius: 10px;
       background: #F7F7F7;
-      font-size: 16px;
+      font-size: 15px;
       cursor: pointer;
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+
+    .layanan button small {
+      margin-top: 4px;
+      font-size: 13px;
     }
 
     .layanan button.active {
@@ -133,7 +142,7 @@
   <div id="map"></div>
 
   <div class="container">
-    <h2>Hai,,,Mau di Antar Kemana?🎉🎉🎉🎉</h2>
+    <h2>Hai,,,Mau di Antar Kemana?</h2>
 
     <div class="input-row">
       <div class="input-box">
@@ -155,9 +164,9 @@
     </div>
 
     <div class="layanan">
-      <button type="button" data-type="ojek motor">🛵<small>Ojek Motor</small></button>
+      <button type="button" data-type="ojek motor">🛵<small>Motor</small></button>
       <button type="button" data-type="ojek mobil">🚗<small>Mobil</small></button>
-      <button type="button" data-type="antar barang">📦<small>Kirim Barang</small></button>
+      <button type="button" data-type="antar barang">📦<small>Barang</small></button>
     </div>
 
     <textarea id="catatan" placeholder="Catatan (opsional)"></textarea>
@@ -302,8 +311,7 @@
 
     function validateForm() {
       const isValid = jemputValid && tujuanValid && layananValid;
-      const btn = document.getElementById("kirimOrder");
-      btn.disabled = !isValid;
+      document.getElementById("kirimOrder").disabled = !isValid;
     }
 
     document.getElementById("kirimOrder").addEventListener("click", () => {
@@ -313,7 +321,9 @@
       const catatan = document.getElementById("catatan").value.trim();
       const jarak = document.getElementById("kirimOrder").dataset.jarak || "-";
       const tarif = document.getElementById("kirimOrder").dataset.tarif || "-";
-      const pesan = `Halo, saya ingin pesan:\nLayanan: ${selectedLayanan}\nJarak: ${jarak} km\nTarif: Rp ${tarif}\nCatatan: ${catatan || "(tidak ada)"}\nRute: ${routeUrl}`;
+      const tambahan = "\n\nTerima kasih telah Menggunakan Layanan Sifood. Mau Jajan Makanan? Klik: https://makmur-hidayat.github.io/Sifood-Home/ . Eh,, jangan lupa Hapenya stanby yah";
+
+const pesan = `*Halo Admin, saya ingin pesan:*\nLayanan: ${selectedLayanan}\nJarak: ${jarak} km\nTarif: Rp ${tarif}\nCatatan: ${catatan || "(tidak ada)"}\nRute: ${routeUrl}${tambahan}`;
       window.open(`https://wa.me/6285266610522?text=${encodeURIComponent(pesan)}`, "_blank");
     });
 
