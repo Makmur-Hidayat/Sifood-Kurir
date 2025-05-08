@@ -1,174 +1,340 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Warung Sutan</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Ojek</title>
   <style>
     body {
-      font-family: sans-serif;
-      padding: 20px;
-      background: #f4f4f4;
+      margin: 0;
+      font-family: 'Arial', sans-serif;
+      background: #f6f6f6;
     }
-    .status-bar {
-      text-align: center;
-      font-weight: bold;
-      padding: 10px;
-      color: white;
-      background: #dc3545;
-      margin-bottom: 20px;
-    }
-    .container {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .card {
-      background: white;
-      padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      width: 125;
-    }
-    select, textarea {
+
+    #map {
       width: 100%;
-      margin: 8px 0;
-      padding: 6px;
+      height: 500px;
     }
-    .qty-controls {
+
+    .container {
+      max-width: 500px;
+      margin: -20px auto 0;
+      background: #fff;
+      padding: 20px;
+      border-radius: 16px 16px 0 0;
+      box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      font-size: 16px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    .input-row {
       display: flex;
-      align-items: center;
-      gap: 10px;
+      gap: 8px;
+      margin-bottom: 8px;
     }
-    .qty-controls button {
-      background: #f7043f;
-      color: white;
-      border: none;
-      width: 30px;
-      height: 30px;
-      font-size: 18px;
-      border-radius: 4px;
+
+    .input-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
-    .cart {
-      margin-top: 30px;
-    }
-    .cart-item {
-      background: white;
+
+    .input-box input {
       padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
     }
-    .btn-orange {
-      background: #ff7043;
-      color: white;
+
+    .hapus-btn {
+      font-size: 13px;
+      color: #ff7043;
+      background: none;
       border: none;
-      padding: 8px 16px;
-      border-radius: 6px;
+      text-align: right;
+      float: right;
+      margin-bottom: 10px;
       cursor: pointer;
     }
-    .btn-orange:hover {
-      background: #e05c35;
+
+    .layanan {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
     }
-    .notif {
-      position: fixed;
-      top: 20px;
-      right: 20px;
-      background: #f7043f;
+
+    .layanan button {
+      flex: 1;
+      margin: 5px;
+      padding: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #F7F7F7;
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .layanan button.active {
+      background: #66BB6A;
       color: white;
-      padding: 10px 15px;
-      border-radius: 8px;
-      opacity: 0;
-      transition: opacity 0.5s ease-in-out;
-      z-index: 999;
+      font-weight: bold;
     }
-    .notif.show {
-      opacity: 1;
+
+    .status-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 16px;
+      margin-bottom: 10px;
+      padding: 6px 10px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 54px;
+      padding: 10px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      resize: none;
+      box-sizing: border-box;
+    }
+
+    button.pesan {
+      width: 100%;
+      padding: 15px;
+      background: #ff7043;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button.pesan:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      opacity: 0.6;
     }
   </style>
 </head>
 <body>
-<img src="https://i.ibb.co.com/xKN8r2pj/images.jpg" alt="Ikan" style="width:9cm; height:9cm; display:block; margin:auto;" />
-
-  <div id="statusBar" class="status-bar">TUTUP</div>
-  <div id="notif" class="notif"></div>
+  <div id="map"></div>
 
   <div class="container">
-    <!-- Makanan -->
-    <div class="card">
-      <h3>Makanan</h3>
-      <select id="foodSelect">
-        <option value="">Pilih Menu</option>
-        <option value="menu1-10000">Menu1 - 10.000</option>
-        <option value="menu2-11000">Menu2 - 11.000</option>
-      </select>
-      <select id="foodExtra" multiple>
-        <option value="T1-3000">T1 - 3.000</option>
-        <option value="T2-4000">T2 - 4.000</option>
-      </select>
-      <select id="foodOption">
-        <option value="">Pilih Opsi</option>
-        <option value="Dingin">Dingin</option>
-        <option value="Hangat">Hangat</option>
-        <option value="Kecil">Kecil</option>
-      </select>
-      <div class="qty-controls">
-        <button onclick="updateQty('food', -1)">-</button>
-        <span id="foodQty">1</span>
-        <button onclick="updateQty('food', 1)">+</button>
-        <span>Subtotal: <span id="foodSubtotal">0</span></span>
+    <h2>Hai,,,Mau di Antar Kemana?🎉🎉🎉🎉</h2>
+
+    <div class="input-row">
+      <div class="input-box">
+        <input type="text" id="jemput" placeholder="Tulis Minimal 4 Huruf lokasi jemput...">
       </div>
-      <textarea id="foodNote" placeholder="Catatan (opsional)"></textarea>
-      <button class="btn-orange" onclick="addToCart('food')">Masukkan Keranjang</button>
     </div>
 
-    <!-- Minuman -->
-    <div class="card">
-      <h3>Minuman</h3>
-      <select id="drinkSelect">
-        <option value="">Pilih Menu</option>
-        <option value="menuA-10000">MenuA - 10.000</option>
-        <option value="menuB-11000">MenuB - 11.000</option>
-      </select>
-      <select id="drinkExtra" multiple>
-        <option value="TA-3000">TA - 3.000</option>
-        <option value="TB-4000">TB - 4.000</option>
-      </select>
-      <select id="drinkOption">
-        <option value="">Pilih Opsi</option>
-        <option value="Hangat">Hangat</option>
-        <option value="Menengah">Menengah</option>
-      </select>
-      <div class="qty-controls">
-        <button onclick="updateQty('drink', -1)">-</button>
-        <span id="drinkQty">1</span>
-        <button onclick="updateQty('drink', 1)">+</button>
-        <span>Subtotal: <span id="drinkSubtotal">0</span></span>
+    <div class="input-row">
+      <div class="input-box">
+        <input type="text" id="tujuan" placeholder="Tulis minimal 4 Huruf Lokasi tujuan...">
       </div>
-      <textarea id="drinkNote" placeholder="Catatan (opsional)"></textarea>
-      <button class="btn-orange" onclick="addToCart('drink')">Masukkan Keranjang</button>
     </div>
-  </div>
 
-  <!-- Keranjang -->
-  <div class="cart">
-    <h3>Keranjang</h3>
-    <div id="cartList"></div>
-    <div>Total Pesanan: <span id="cartTotal">0</span></div>
-    <select id="lokasiAntar" onchange="updateOngkir()">
-      <option value="">Pilih Lokasi Antar</option>
-      <option value="KM 9-6000">KM 9 - 6.000</option>
-      <option value="KM 8-6000">KM 8 - 6.000</option>
-    </select>
-    <div>Total + Ongkir: <span id="totalPlusOngkir">0</span></div>
-    <textarea id="alamatDetail" placeholder="Alamat lengkap: gang, rumah, gedung..."></textarea>
-    <button class="btn-orange" onclick="checkout()">====KIRIM PESANAN KE WHATSAPP ADMIN📤====Pastikan Chatmu terkirim ke Admin yah</button>
+    <button class="hapus-btn" onclick="resetAlamat()">Hapus Alamat</button>
+
+    <div class="status-row">
+      <div id="jarakOutput">Jarak: - km</div>
+      <div id="tarifOutput">Tarif: Rp -</div>
+    </div>
+
+    <div class="layanan">
+      <button type="button" data-type="ojek motor">🛵<small>Ojek Motor</small></button>
+      <button type="button" data-type="ojek mobil">🚗<small>Mobil</small></button>
+      <button type="button" data-type="antar barang">📦<small>Kirim Barang</small></button>
+    </div>
+
+    <textarea id="catatan" placeholder="Catatan (opsional)"></textarea>
+    <button class="pesan" id="kirimOrder" disabled>Kirim ke WhatsApp Admin</button>
   </div>
 
   <script>
-    // JavaScript bagian sama seperti yang telah Anda berikan
+    let map, jemputLoc, tujuanLoc, markerJemput, markerTujuan;
+    let jemputValid = false, tujuanValid = false, layananValid = false;
+    let selectedLayanan = null;
+    let directionsService, directionsRenderer, routeUrl = "";
+
+    const layananData = {
+      "ojek motor": { awal: 6000, jarak: 2, perkm: 2500 },
+      "ojek mobil": { awal: 15000, jarak: 2, perkm: 5000 },
+      "antar barang": { awal: 6000, jarak: 2, perkm: 2500 }
+    };
+
+    function initMap() {
+      const defaultLoc = { lat: -2.052742, lng: 99.574232 };
+      map = new google.maps.Map(document.getElementById("map"), {
+        center: defaultLoc,
+        zoom: 15,
+        gestureHandling: "greedy",
+        mapTypeId: google.maps.MapTypeId.HYBRID,
+        rotateControl: true,
+        tilt: 45
+      });
+
+      directionsService = new google.maps.DirectionsService();
+      directionsRenderer = new google.maps.DirectionsRenderer({ map });
+
+      const autoJemput = new google.maps.places.Autocomplete(document.getElementById("jemput"));
+      const autoTujuan = new google.maps.places.Autocomplete(document.getElementById("tujuan"));
+
+      autoJemput.bindTo("bounds", map);
+      autoTujuan.bindTo("bounds", map);
+
+      autoJemput.addListener("place_changed", () => {
+        const place = autoJemput.getPlace();
+        if (!place.geometry) return;
+        jemputLoc = place.geometry.location;
+        jemputValid = true;
+        placeMarker(jemputLoc, true);
+        if (tujuanLoc) drawRoute();
+        validateForm();
+      });
+
+      autoTujuan.addListener("place_changed", () => {
+        const place = autoTujuan.getPlace();
+        if (!place.geometry) return;
+        tujuanLoc = place.geometry.location;
+        tujuanValid = true;
+        placeMarker(tujuanLoc, false);
+        if (jemputLoc) drawRoute();
+        validateForm();
+      });
+
+      map.addListener("click", (e) => {
+        if (!jemputLoc) {
+          jemputLoc = e.latLng;
+          jemputValid = true;
+          placeMarker(jemputLoc, true);
+          reverseGeocode(e.latLng, 'jemput');
+        } else {
+          tujuanLoc = e.latLng;
+          tujuanValid = true;
+          placeMarker(tujuanLoc, false);
+          reverseGeocode(e.latLng, 'tujuan');
+        }
+        if (jemputLoc && tujuanLoc) drawRoute();
+        validateForm();
+      });
+    }
+
+    function reverseGeocode(latlng, type) {
+      const geocoder = new google.maps.Geocoder();
+      geocoder.geocode({ location: latlng }, (results, status) => {
+        if (status === "OK" && results[0]) {
+          document.getElementById(type).value = results[0].formatted_address;
+          validateForm();
+        }
+      });
+    }
+
+    function placeMarker(location, isJemput) {
+      const iconUrl = isJemput
+        ? "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+        : "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
+      const marker = new google.maps.Marker({
+        position: location,
+        map,
+        icon: iconUrl
+      });
+      if (isJemput) {
+        if (markerJemput) markerJemput.setMap(null);
+        markerJemput = marker;
+      } else {
+        if (markerTujuan) markerTujuan.setMap(null);
+        markerTujuan = marker;
+      }
+    }
+
+    function drawRoute() {
+      directionsService.route({
+        origin: jemputLoc,
+        destination: tujuanLoc,
+        travelMode: google.maps.TravelMode.DRIVING
+      }, (result, status) => {
+        if (status === "OK") {
+          directionsRenderer.setDirections(result);
+          const leg = result.routes[0].legs[0];
+          const jarak = leg.distance.value / 1000;
+          const tarif = hitungTarif(jarak);
+          const jemputStr = `${jemputLoc.lat()},${jemputLoc.lng()}`;
+          const tujuanStr = `${tujuanLoc.lat()},${tujuanLoc.lng()}`;
+          routeUrl = `https://www.google.com/maps/dir/?api=1&origin=${jemputStr}&destination=${tujuanStr}&travelmode=driving`;
+
+          document.getElementById("jarakOutput").innerText = `Jarak: ${jarak.toFixed(2)} km`;
+          document.getElementById("tarifOutput").innerText = `Tarif: Rp ${tarif.toLocaleString("id-ID")}`;
+          document.getElementById("kirimOrder").dataset.jarak = jarak.toFixed(2);
+          document.getElementById("kirimOrder").dataset.tarif = tarif;
+        }
+      });
+    }
+
+    function hitungTarif(jarak) {
+      const l = layananData[selectedLayanan];
+      return jarak <= l.jarak ? l.awal : l.awal + Math.round((jarak - l.jarak) * l.perkm);
+    }
+
+    document.querySelectorAll(".layanan button").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".layanan button").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        selectedLayanan = btn.dataset.type;
+        layananValid = true;
+        if (jemputLoc && tujuanLoc) drawRoute();
+        validateForm();
+      });
+    });
+
+    function validateForm() {
+      const isValid = jemputValid && tujuanValid && layananValid;
+      const btn = document.getElementById("kirimOrder");
+      btn.disabled = !isValid;
+    }
+
+    document.getElementById("kirimOrder").addEventListener("click", () => {
+      if (!jemputValid || !tujuanValid || !layananValid) {
+        return alert("Silakan isi alamat jemput, tujuan, dan pilih layanan terlebih dahulu.");
+      }
+      const catatan = document.getElementById("catatan").value.trim();
+      const jarak = document.getElementById("kirimOrder").dataset.jarak || "-";
+      const tarif = document.getElementById("kirimOrder").dataset.tarif || "-";
+      const pesan = `Halo, saya ingin pesan:\nLayanan: ${selectedLayanan}\nJarak: ${jarak} km\nTarif: Rp ${tarif}\nCatatan: ${catatan || "(tidak ada)"}\nRute: ${routeUrl}`;
+      window.open(`https://wa.me/6285266610522?text=${encodeURIComponent(pesan)}`, "_blank");
+    });
+
+    function resetAlamat() {
+      document.getElementById("jemput").value = '';
+      document.getElementById("tujuan").value = '';
+      jemputLoc = null;
+      tujuanLoc = null;
+      jemputValid = false;
+      tujuanValid = false;
+      if (markerJemput) markerJemput.setMap(null);
+      if (markerTujuan) markerTujuan.setMap(null);
+      directionsRenderer.setDirections({ routes: [] });
+      document.getElementById("jarakOutput").innerText = "Jarak: - km";
+      document.getElementById("tarifOutput").innerText = "Tarif: Rp -";
+      validateForm();
+    }
+  </script>
+
+  <script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA9arEhmxAiMD-h3Nd0WhaPpuGxlJimGI&libraries=places&callback=initMap">
   </script>
 </body>
 </html>
-
