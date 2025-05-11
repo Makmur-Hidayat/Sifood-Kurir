@@ -321,7 +321,7 @@
       const catatan = document.getElementById("catatan").value.trim();
       const jarak = document.getElementById("kirimOrder").dataset.jarak || "-";
       const tarif = document.getElementById("kirimOrder").dataset.tarif || "-";
-      const tambahan = "\n\nTerima kasih telah Menggunakan Layanan Sifood. Mau Jajan Makanan? Klik: https://makmur-hidayat.github.io/Sifood-Home/ . Eh,, jangan lupa Hapenya stanby yah";
+      const tambahan = "\n\nTerima kasih telah Menggunakan Layanan Sifood. Mau Jajan Makanan? Klik: *sifood.online* . Eh,, jangan lupa Hapenya stanby yah";
 
 const pesan = `*Halo Admin, saya ingin pesan:*\nLayanan: ${selectedLayanan}\nJarak: ${jarak} km\nTarif: Rp ${tarif}\nCatatan: ${catatan || "(tidak ada)"}\nRute: ${routeUrl}${tambahan}`;
       window.open(`https://wa.me/6285266610522?text=${encodeURIComponent(pesan)}`, "_blank");
