@@ -43,11 +43,12 @@
             border-radius: 16px;
             box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
             overflow: hidden;
+            position: relative;
         }
 
         header {
             background-color: var(--primary-color);
-            color: var(--bg-color);
+            color: white;
             padding: 20px;
             text-align: center;
         }
@@ -243,6 +244,55 @@
             font-size: 0.9em;
             cursor: pointer;
         }
+        
+        /* -- [DIUBAH] CSS UNTUK NOTIFIKASI TERBANG (TOAST) -- */
+        .toast-notification {
+            position: fixed;
+            top: 25vh; /* Posisi di sepertiga atas layar */
+            left: 50%;
+            /* Pastikan ditengah sempurna */
+            transform: translate(-50%, -50%); 
+            padding: 14px 22px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 500;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            text-align: center;
+            /* Animasi baru */
+            animation: fade-in-down 0.5s ease-out forwards, 
+                         fade-out-up 0.5s ease-in 2.5s forwards;
+        }
+
+        .toast-notification.error {
+            background-color: var(--error-color);
+        }
+
+        .toast-notification.success {
+            background-color: var(--accent-color);
+        }
+
+        @keyframes fade-in-down {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -100%);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+        }
+
+        @keyframes fade-out-up {
+            from {
+                opacity: 1;
+                transform: translate(-50%, -50%);
+            }
+            to {
+                opacity: 0;
+                transform: translate(-50%, -100%);
+            }
+        }
 
     </style>
 </head>
@@ -255,7 +305,15 @@
 
         <main id="order-form">
             <div class="form-group">
-             
+                <label>Pilih Layanan</label>
+                <div class="service-grid">
+                    <button class="service-btn" data-service="Titip Beli">🛒Titip Beli</button>
+                    <button class="service-btn" data-service="Kirim Barang">📦 Kirim Barang</button>
+                    <button class="service-btn" data-service="Ojek">🛵 Ojek</button>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <select id="pickup-location" class="form-control" required>
                     <option value="">-- 📍Pilih Lokasi Jemput --</option>
                     <option value="0">Kilometer-0</option>
@@ -277,12 +335,10 @@
                 </select>
             </div>
             <div class="form-group">
-                
                 <input type="text" id="pickup-detail" class="form-control" placeholder="(Wajib di isi), Cth: Pelabuhan Kapal Mentawai fast" required>
             </div>
 
             <div class="form-group">
-                
                 <select id="dropoff-location" class="form-control" required>
                      <option value="">-- 📍Pilih Lokasi Antar --</option>
                     <option value="0">Kilometer-0</option>
@@ -304,7 +360,6 @@
                 </select>
             </div>
             <div class="form-group">
-                
                 <input type="text" id="dropoff-detail" class="form-control" placeholder="(wajib di isi) Cth: gang beringin no 5" required>
             </div>
 
@@ -323,16 +378,7 @@
                 <label for="schedule-datetime">Pilih Tanggal & Jam Pengantaran</label>
                 <input type="datetime-local" id="schedule-datetime" class="form-control">
             </div>
-
-            <div class="form-group">
-                <label>Pilih Layanan</label>
-                <div class="service-grid">
-                    <button class="service-btn" data-service="Titip Beli">Titip Beli</button>
-                    <button class="service-btn" data-service="Kirim Barang">Kirim Barang</button>
-                    <button class="service-btn" data-service="Ojek">Ojek</button>
-                </div>
-            </div>
-
+            
             <div id="payment-section" class="hidden">
                 <div class="form-group">
                     <label>Status Pembayaran Belanja</label>
@@ -401,6 +447,23 @@
                 timestamp: '', scheduleInfo: ''
             };
             
+            // ---- FUNGSI UNTUK MENAMPILKAN NOTIFIKASI TERBANG (TOAST) ---- //
+            function showToast(message, type = 'error') {
+                const existingToast = document.querySelector('.toast-notification');
+                if (existingToast) {
+                    existingToast.remove();
+                }
+
+                const toast = document.createElement('div');
+                toast.textContent = message;
+                toast.className = `toast-notification ${type}`;
+                document.body.appendChild(toast);
+
+                setTimeout(() => {
+                    toast.remove();
+                }, 3000); // Durasi notifikasi 3 detik
+            }
+
             // ---- FUNGSI PERHITUNGAN & FORMAT ---- //
             function calculateFare() {
                 const pickupKm = parseFloat(pickupLocationEl.value);
@@ -472,7 +535,6 @@
                 const scheduleType = document.querySelector('input[name="schedule-type"]:checked').value;
                 if (scheduleType === 'nanti') {
                     scheduleSection.classList.remove('hidden');
-                    // Set min value to current time to prevent picking past dates
                     const now = new Date();
                     now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
                     scheduleDateTimeEl.min = now.toISOString().slice(0, 16);
@@ -532,23 +594,19 @@
                     const orderToReorder = history.find(order => order.id == orderId);
                     
                     if (orderToReorder) {
-                        // Isi form utama
                         pickupLocationEl.value = orderToReorder.pickupLocation.value;
                         pickupDetailEl.value = orderToReorder.pickupDetail;
                         dropoffLocationEl.value = orderToReorder.dropoffLocation.value;
                         dropoffDetailEl.value = orderToReorder.dropoffDetail;
                         
-                        // Reset Jadwal ke "Sekarang"
                         document.querySelector('input[name="schedule-type"][value="sekarang"]').checked = true;
                         scheduleSection.classList.add('hidden');
                         scheduleDateTimeEl.value = '';
 
-                        // Isi layanan
                         serviceBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.service === orderToReorder.service));
                         selectedService = orderToReorder.service;
                         state.service = selectedService;
 
-                        // Isi detail pembayaran
                         paymentSection.classList.add('hidden');
                         if (orderToReorder.service === 'Titip Beli') {
                             paymentSection.classList.remove('hidden');
@@ -559,7 +617,7 @@
                         
                         updateTotal();
                         window.scrollTo(0, 0); 
-                        alert('Data pesanan telah dimuat ulang. Jadwal direset ke "Sekarang".');
+                        showToast('Data pesanan telah dimuat ulang. Jadwal direset ke "Sekarang".', 'success');
                     }
                 }
             }
@@ -571,20 +629,19 @@
                 }
             }
 
-            // ---- PENGIRIMAN ORDER ---- //
+            // ---- PENGIRIMAN ORDER (DENGAN VALIDASI TOAST) ---- //
             function submitOrder() {
                 // -- Validasi & Pengumpulan Data -- //
-                if (!pickupLocationEl.value) { alert('Pilih lokasi jemput!'); return; }
-                if (!pickupDetailEl.value.trim()) { alert('Isi detail lokasi jemput!'); return; }
-                if (!dropoffLocationEl.value) { alert('Pilih lokasi antar!'); return; }
-                if (!dropoffDetailEl.value.trim()) { alert('Isi detail lokasi antar!'); return; }
+                if (!selectedService) { showToast('Pilih jenis layanan terlebih dahulu!'); return; }
+                if (!pickupLocationEl.value) { showToast('Pilih lokasi jemput!'); return; }
+                if (!pickupDetailEl.value.trim()) { showToast('Isi detail lokasi jemput!'); return; }
+                if (!dropoffLocationEl.value) { showToast('Pilih lokasi antar!'); return; }
+                if (!dropoffDetailEl.value.trim()) { showToast('Isi detail lokasi antar!'); return; }
                 
                 const scheduleType = document.querySelector('input[name="schedule-type"]:checked').value;
                 if (scheduleType === 'nanti' && !scheduleDateTimeEl.value) {
-                    alert('Pilih tanggal dan jam pengantaran!'); return;
+                    showToast('Pilih tanggal dan jam pengantaran!'); return;
                 }
-
-                if (!selectedService) { alert('Pilih jenis layanan!'); return; }
 
                 // -- Kumpulkan semua data ke state -- //
                 const orderTimestamp = new Date().toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' }).replace(/\./g, ':');
@@ -615,14 +672,14 @@
                 const deliveryFee = calculateFare();
                 if (selectedService === 'Titip Beli') {
                     const paymentStatus = document.querySelector('input[name="payment-status"]:checked');
-                    if (!paymentStatus) { alert('Pilih status pembayaran untuk Titip Beli!'); return; }
+                    if (!paymentStatus) { showToast('Pilih status pembayaran untuk Titip Beli!'); return; }
                     
                     state.paymentStatus = paymentStatus.value;
                     message += `*STATUS BAYAR: ${state.paymentStatus}*\n`;
 
                     if (state.paymentStatus === 'Belum dibayar') {
                         const shoppingCost = parseFloat(shoppingCostEl.value) || 0;
-                        if (shoppingCost <= 0) { alert('Isi perkiraan harga belanja!'); return; }
+                        if (shoppingCost <= 0) { showToast('Isi perkiraan harga belanja!'); return; }
                         state.shoppingCost = shoppingCost;
                         message += `*PERKIRAAN BELANJA: ${formatCurrency(state.shoppingCost)}*\n`;
                     } else {
@@ -634,7 +691,7 @@
                 message += `-------------------------------------\n`;
                 message += `*ONGKIR: ${formatCurrency(deliveryFee)}*\n`;
                 message += `*TOTAL BIAYA: ${formatCurrency(totalCost)}*\n\n`;
-                message += `Terima Kasih telah menggunakan layanan *www.sifood.online*  Orderanmu Akan segera kami Proses. mohon hapenya Stanby yah!`;
+                message += `Terima Kasih telah menggunakan layanan *www.sifood.online* Orderanmu Akan segera kami Proses. mohon hapenya Stanby yah!`;
 
                 saveOrderToHistory(state);
                 const whatsappUrl = `https://wa.me/${ADMIN_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
