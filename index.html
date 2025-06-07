@@ -371,7 +371,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <input type="text" id="pickup-detail" class="form-control" placeholder="(Wajib di isi), Cth: Pelabuhan Kapal Mentawai fast" required>
+                <input type="text" id="pickup-detail" class="form-control" placeholder="Detai Lokasi Jemput, Cth: Pelabuhan Kapal Mentawai fast" required>
             </div>
 
             <div class="form-group">
@@ -397,14 +397,13 @@
                 </select>
             </div>
             <div class="form-group">
-                <input type="text" id="dropoff-detail" class="form-control" placeholder="(wajib di isi) Cth: gang beringin no 5" required>
+                <input type="text" id="dropoff-detail" class="form-control" placeholder="Detail Lokasi Antar,  Cth: gang beringin no 5" required>
             </div>
 
             <div class="form-group">
-                <label>Kapan diantar?</label>
                 <div class="choice-options">
-                    <label><input type="radio" name="schedule-type" value="sekarang" checked> Sekarang</label>
-                    <label><input type="radio" name="schedule-type" value="nanti"> Nanti</label>
+                    <label><input type="radio" name="schedule-type" value="sekarang" checked> Untuk Sekarang</label>
+                    <label><input type="radio" name="schedule-type" value="nanti"> Untuk Nanti</label>
                 </div>
             </div>
             <div id="schedule-section" class="form-group hidden">
@@ -414,7 +413,6 @@
 
             <div id="titip-beli-options" class="service-specific-options hidden">
                 <div class="form-group">
-                    <label>Daftar Belanjaan (Wajib diisi)</label>
                     <div id="shopping-list-container">
                         <div class="shopping-item-row shopping-item-header">
                             <span>No.</span>
@@ -424,47 +422,45 @@
                         </div>
                         <div class="shopping-item-row">
                              <span>1.</span>
-                             <input type="text" class="form-control shopping-item-name" placeholder="Minyak Goreng">
-                             <input type="number" class="form-control shopping-item-qty" placeholder="1">
-                             <input type="text" class="form-control shopping-item-unit" placeholder="Liter">
+                             <input type="text" class="form-control shopping-item-name" placeholder="Telur">
+                             <input type="number" class="form-control shopping-item-qty" placeholder="10">
+                             <input type="text" class="form-control shopping-item-unit" placeholder="butir">
                         </div>
                     </div>
                 </div>
                 <div id="shopping-cost-section" class="form-group">
-                    <label for="shopping-cost">Perkiraan Total Harga Belanja (Wajib diisi)</label>
-                    <input type="number" id="shopping-cost" class="form-control" placeholder="cth: 50000" required>
+                    <input type="number" id="shopping-cost" class="form-control" placeholder="Perkiraan total Belanjaan cth: 50000" required>
                 </div>
             </div>
 
             <div id="kirim-barang-options" class="service-specific-options hidden">
                 <div class="form-group">
-                     <label for="item-info">Informasi Barang (Wajib diisi)</label>
-                     <input type="text" id="item-info" class="form-control" placeholder="Cth: Dus, Baju, Kunci" required>
+                    
+                     <input type="text" id="item-info" class="form-control" placeholder="Info Barang, Cth: Dus, Baju, Kunci" required>
                 </div>
                 <div class="form-group">
-                    <label>Ongkir Dibayar Oleh</label>
+               
                     <div class="choice-options">
-                        <label><input type="radio" name="shipping-payer" value="Pengirim" required checked> Pengirim</label>
-                        <label><input type="radio" name="shipping-payer" value="Penerima"> Penerima</label>
+                        <label><input type="radio" name="shipping-payer" value="Pengirim" required checked> Ongkir dibayar Pengirim</label>
+                        <label><input type="radio" name="shipping-payer" value="Penerima"> ongkir dibayar Penerima</label>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Status Pembayaran Barang (COD)</label>
                     <div class="choice-options">
-                        <label><input type="radio" name="cod-status" value="Sudah Lunas" required checked> Sudah Lunas</label>
-                        <label><input type="radio" name="cod-status" value="Belum Lunas (COD)"> Belum Lunas (COD)</label>
+                        <label><input type="radio" name="cod-status" value="Sudah Lunas" required checked> Barang Sudah Lunas</label>
+                        <label><input type="radio" name="cod-status" value="Belum Lunas (COD)"> Barang Belum Lunas (COD)</label>
                     </div>
                 </div>
                 <div id="cod-cost-section" class="form-group hidden">
-                    <label for="cod-cost">Total Harga Barang (Jumlah COD)</label>
-                    <input type="number" id="cod-cost" class="form-control" placeholder="cth: 150000">
+                
+                    <input type="number" id="cod-cost" class="form-control" placeholder="Harga Barang, cth: 150000">
                 </div>
             </div>
             
             <div id="ojek-options" class="service-specific-options hidden">
                  <div class="form-group">
-                     <label for="ojek-notes">Catatan (Wajib diisi)</label>
-                     <textarea id="ojek-notes" class="form-control" placeholder="Cth: Mohon tunggu di depan gerbang, pakai helm" required></textarea>
+              
+                     <textarea id="ojek-notes" class="form-control" placeholder="Catatan, Cth: Mohon tunggu di depan gerbang, pakai helm" required></textarea>
                 </div>
             </div>
 
@@ -578,17 +574,17 @@
             switch (selectedService) {
                 case 'Titip Beli':
                     pickupLabel.textContent = 'Lokasi Belanja';
-                    pickupDetailEl.placeholder = 'Cth: Warung Mama Gaul, Toko Sinar Jaya';
+                    pickupDetailEl.placeholder = 'Detail Lokasi Belanja, Cth: Kedai Maskus';
                     titipBeliOptions.classList.remove('hidden');
                     break;
                 case 'Kirim Barang':
                     pickupLabel.textContent = 'Lokasi Jemput';
-                    pickupDetailEl.placeholder = '(Wajib di isi), Cth: Depan kantor pos';
+                    pickupDetailEl.placeholder = 'Detai Lokasi jemput, Cth: Depan kantor pos';
                     kirimBarangOptions.classList.remove('hidden');
                     break;
                 case 'Ojek':
                     pickupLabel.textContent = 'Lokasi Jemput';
-                    pickupDetailEl.placeholder = '(Wajib di isi), Cth: Depan Bank Nagari';
+                    pickupDetailEl.placeholder = 'detai lokasi jemput, Cth: Depan Bank Nagari';
                     ojekOptions.classList.remove('hidden');
                     break;
             }
