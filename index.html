@@ -35,6 +35,7 @@
             align-items: flex-start;
             min-height: 100vh;
             padding: 15px;
+            font-size: 16px; /* Menetapkan basis font size */
         }
 
         .container {
@@ -54,8 +55,9 @@
             text-align: center;
         }
 
+        /* Dikecualikan dari perubahan */
         header h1 {
-            font-size: 1.5em;
+            font-size: 1.5em; 
             font-weight: 600;
         }
 
@@ -71,7 +73,7 @@
             display: block;
             font-weight: 500;
             margin-bottom: 8px;
-            font-size: 0.9em;
+            font-size: 0.95rem; /* Disesuaikan */
         }
 
         .form-control {
@@ -79,7 +81,7 @@
             padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 1em;
+            font-size: 0.95rem; /* Disesuaikan */
             font-family: 'Poppins', sans-serif;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
@@ -106,9 +108,9 @@
             padding: 12px 5px;
             border-radius: 8px;
             border: 2px solid var(--border-color);
-            background-color: var(--light-gray);
+            background-color: #fff;
             font-weight: 600;
-            font-size: 0.9em;
+            font-size: 0.95rem; /* Disesuaikan */
             cursor: pointer;
             transition: all 0.3s;
             color: var(--primary-color);
@@ -132,6 +134,7 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
+            font-size: 0.95rem; /* Disesuaikan */
         }
         
         input[type="radio"] {
@@ -157,7 +160,7 @@
         }
         
         #shopping-list-container .shopping-item-header {
-             font-size: 0.8em;
+             font-size: 0.9rem; /* Disesuaikan agar sedikit berbeda untuk header */
              font-weight: 600;
              color: var(--text-color);
              margin-bottom: 10px;
@@ -174,17 +177,19 @@
         }
 
         .total-display p {
-            font-size: 1.1em;
+            font-size: 0.95rem; /* Disesuaikan */
             font-weight: 500;
             margin-bottom: 5px;
         }
 
+        /* Dikecualikan dari perubahan */
         .total-display h2 {
             font-size: 2em;
             font-weight: 700;
             letter-spacing: 1px;
         }
-
+        
+        /* Dikecualikan dari perubahan */
         .submit-btn {
             width: 100%;
             padding: 15px;
@@ -225,6 +230,7 @@
             text-align: center;
             margin-bottom: 15px;
             color: var(--primary-color);
+            font-size: 1.1rem; /* Disesuaikan untuk sub-judul */
         }
         
         #history-list {
@@ -241,11 +247,11 @@
             padding: 15px;
             margin-bottom: 10px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            position: relative; /* Ditambahkan untuk positioning anak elemen */
+            position: relative;
         }
 
         .history-item p {
-            font-size: 0.85em;
+            font-size: 0.95rem; /* Disesuaikan */
             margin-bottom: 5px;
             line-height: 1.4;
         }
@@ -259,7 +265,7 @@
             border-left: 3px solid var(--secondary-color);
             padding: 10px;
             margin-top: 10px;
-            font-size: 0.8em;
+            font-size: 1em; /* Dibuat mewarisi ukuran font dari parent (.history-item p) */
             border-radius: 4px;
         }
         
@@ -275,9 +281,8 @@
             padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.8em;
+            font-size: 0.9rem; /* Disesuaikan */
             transition: opacity 0.3s;
-            /* Perubahan styling untuk posisi tombol */
             position: absolute;
             top: 15px;
             right: 15px;
@@ -294,7 +299,7 @@
             border: none;
             padding: 8px 15px;
             border-radius: 5px;
-            font-size: 0.9em;
+            font-size: 0.95rem; /* Disesuaikan */
             cursor: pointer;
         }
         
@@ -344,9 +349,9 @@
             </div>
 
             <div class="form-group">
-                <label for="pickup-location" id="pickup-label">📍 Lokasi Jemput</label>
+                <label for="pickup-location" id="pickup-label">Lokasi Jemput</label>
                 <select id="pickup-location" class="form-control" required>
-                    <option value="">-- Pilih Lokasi --</option>
+                    <option value="">-- 📍 Pilih Lokasi --</option>
                     <option value="0">Kilometer-0</option>
                     <option value="1">Kilometer-1</option>
                     <option value="2">Kilometer-2</option>
@@ -370,9 +375,9 @@
             </div>
 
             <div class="form-group">
-                <label for="dropoff-location">📍 Lokasi Antar</label>
+                <label for="dropoff-location">Lokasi Antar</label>
                 <select id="dropoff-location" class="form-control" required>
-                    <option value="">-- Pilih Lokasi Antar --</option>
+                    <option value="">-- 📍 Pilih Lokasi Antar --</option>
                     <option value="0">Kilometer-0</option>
                     <option value="1">Kilometer-1</option>
                     <option value="2">Kilometer-2</option>
@@ -572,17 +577,17 @@
             
             switch (selectedService) {
                 case 'Titip Beli':
-                    pickupLabel.textContent = '📍 Lokasi Belanja';
+                    pickupLabel.textContent = 'Lokasi Belanja';
                     pickupDetailEl.placeholder = 'Cth: Warung Mama Gaul, Toko Sinar Jaya';
                     titipBeliOptions.classList.remove('hidden');
                     break;
                 case 'Kirim Barang':
-                    pickupLabel.textContent = '📍 Lokasi Jemput';
+                    pickupLabel.textContent = 'Lokasi Jemput';
                     pickupDetailEl.placeholder = '(Wajib di isi), Cth: Depan kantor pos';
                     kirimBarangOptions.classList.remove('hidden');
                     break;
                 case 'Ojek':
-                    pickupLabel.textContent = '📍 Lokasi Jemput';
+                    pickupLabel.textContent = 'Lokasi Jemput';
                     pickupDetailEl.placeholder = '(Wajib di isi), Cth: Depan Bank Nagari';
                     ojekOptions.classList.remove('hidden');
                     break;
