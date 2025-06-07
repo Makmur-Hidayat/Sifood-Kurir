@@ -1,350 +1,660 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Order Ojek</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Arial', sans-serif;
-      background: #f6f6f6;
-      padding-bottom: 20px;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sifood Titip Beli, Ojek & Kurir</title>
+    <style>
+        /* CSS untuk Tampilan dan Desain (Tidak ada perubahan) */
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-    #map {
-  width: 90%;
-  max-width: 500px;
-  height: 300px;
-  margin: 20px auto;
-  border-radius: 12px;
-  overflow: hidden;
-}
+        :root {
+            --primary-color: #ff7043;
+            --secondary-color: #3498db;
+            --accent-color: #2ecc71;
+            --light-gray: #ecf0f1;
+            --dark-gray: #95a5a6;
+            --bg-color: #ffffff;
+            --text-color: #34495e;
+            --error-color: #e74c3c;
+        }
 
-    .container {
-      max-width: 500px;
-      margin: -20px auto 0;
-      background: #fff;
-      padding: 20px;
-      border-radius: 16px 16px 0 0;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    h2 {
-      text-align: center;
-      font-size: 16px;
-      margin-bottom: 20px;
-      color: #333;
-    }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--light-gray);
+            color: var(--text-color);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 15px;
+        }
 
-    .input-row {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 8px;
-    }
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--bg-color);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
 
-    .input-box {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
+        header {
+            background-color: var(--primary-color);
+            color: var(--bg-color);
+            padding: 20px;
+            text-align: center;
+        }
 
-    .input-box input {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 15px;
-      outline: none;
-    }
+        header h1 {
+            font-size: 1.5em;
+            font-weight: 600;
+        }
 
-    .hapus-btn {
-      font-size: 13px;
-      color: #ff7043;
-      background: none;
-      border: none;
-      text-align: right;
-      float: right;
-      margin-bottom: 10px;
-      cursor: pointer;
-    }
+        main {
+            padding: 20px;
+        }
 
-    .layanan {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      margin-bottom: 12px;
-    }
+        .form-group {
+            margin-bottom: 18px;
+        }
 
-    .layanan button {
-      padding: 14px 8px;
-      border: none;
-      border-radius: 10px;
-      background: #F7F7F7;
-      font-size: 15px;
-      cursor: pointer;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
 
-    .layanan button small {
-      margin-top: 4px;
-      font-size: 13px;
-    }
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
+        }
 
-    .layanan button.active {
-      background: #66BB6A;
-      color: white;
-      font-weight: bold;
-    }
+        .form-control:focus {
+            outline: none;
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+        }
 
-    .status-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 16px;
-      margin-bottom: 10px;
-      padding: 6px 10px;
-    }
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
 
-    textarea {
-      width: 100%;
-      height: 54px;
-      padding: 10px;
-      font-size: 15px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      resize: none;
-      box-sizing: border-box;
-    }
+        .service-btn {
+            padding: 12px 5px;
+            border-radius: 8px;
+            border: 2px solid var(--light-gray);
+            background-color: var(--light-gray);
+            font-weight: 600;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--primary-color);
+        }
 
-    button.pesan {
-      width: 100%;
-      padding: 15px;
-      background: #ff7043;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
+        .service-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
 
-    button.pesan:disabled {
-      background: #ccc;
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-  </style>
+        .choice-options {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+        }
+
+        .choice-options label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+        }
+
+        #payment-section {
+            padding: 15px;
+            border: 1px dashed var(--dark-gray);
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .total-display {
+            background-color: var(--light-gray);
+            color: #ff7043;
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .total-display p {
+            font-size: 1.1em;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .total-display h2 {
+            font-size: 2em;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #ff7043;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .submit-btn:hover {
+            background-color: #128C7E;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        #history-section {
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        #history-section h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+        
+        #history-list {
+            list-style: none;
+            padding: 0;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        
+        .history-item {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .history-item p {
+            font-size: 0.85em;
+            margin-bottom: 5px;
+            line-height: 1.4;
+        }
+        
+        .history-item p strong {
+            color: var(--primary-color);
+        }
+
+        .history-item .reorder-btn {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8em;
+            margin-top: 10px;
+            float: right;
+        }
+        .history-item .reorder-btn:hover {
+            opacity: 0.9;
+        }
+        
+        #clear-history-btn {
+            display: block;
+            margin: 15px auto 0;
+            background: var(--error-color);
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+        }
+
+    </style>
 </head>
 <body>
-  <div id="map"></div>
 
-  <div class="container">
-    <h2>Hai,,,Mau di Antar Kemana?</h2>
+    <div class="container">
+        <header>
+            <h1>Titip Beli Ojek & Kurir</h1>
+        </header>
 
-    <div class="input-row">
-      <div class="input-box">
-        <input type="text" id="jemput" placeholder="Tulis Minimal 4 Huruf lokasi jemput...">
-      </div>
+        <main id="order-form">
+            <div class="form-group">
+             
+                <select id="pickup-location" class="form-control" required>
+                    <option value="">-- 📍Pilih Lokasi Jemput --</option>
+                    <option value="0">Kilometer-0</option>
+                    <option value="1">Kilometer-1</option>
+                    <option value="2">Kilometer-2</option>
+                    <option value="3">Kilometer-3</option>
+                    <option value="4">Kilometer-4</option>
+                    <option value="5">Kilometer-5</option>
+                    <option value="6">Kilometer-6</option>
+                    <option value="7">Kilometer-7</option>
+                    <option value="9">Kilometer-9</option>
+                    <option value="10">Kilometer-10</option>
+                    <option value="6">(Other) SP2 Desa Sido Makmur</option>
+                    <option value="4">(Other) Mapaddegat Bawah</option>
+                    <option value="10">(Other) SP3 Bukit Pamewa</option>
+                    <option value="20">(Other) Desa Goisooinan</option>
+                    <option value="35">(Other) Desa Pogari</option>
+                    <option value="42">(Other) Bandara Rokot</option>
+                </select>
+            </div>
+            <div class="form-group">
+                
+                <input type="text" id="pickup-detail" class="form-control" placeholder="(Wajib di isi), Cth: Pelabuhan Kapal Mentawai fast" required>
+            </div>
+
+            <div class="form-group">
+                
+                <select id="dropoff-location" class="form-control" required>
+                     <option value="">-- 📍Pilih Lokasi Antar --</option>
+                    <option value="0">Kilometer-0</option>
+                    <option value="1">Kilometer-1</option>
+                    <option value="2">Kilometer-2</option>
+                    <option value="3">Kilometer-3</option>
+                    <option value="4">Kilometer-4</option>
+                    <option value="5">Kilometer-5</option>
+                    <option value="6">Kilometer-6</option>
+                    <option value="7">Kilometer-7</option>
+                    <option value="9">Kilometer-9</option>
+                    <option value="10">Kilometer-10</option>
+                    <option value="6">(Other) SP2 Desa Sido Makmur</option>
+                    <option value="4">(Other) Mapaddegat Bawah</option>
+                    <option value="10">(Other) SP3 Bukit Pamewa</option>
+                    <option value="20">(Other) Desa Goisooinan</option>
+                    <option value="35">(Other) Desa Pogari</option>
+                    <option value="42">(Other) Bandara Rokot</option>
+                </select>
+            </div>
+            <div class="form-group">
+                
+                <input type="text" id="dropoff-detail" class="form-control" placeholder="(wajib di isi) Cth: gang beringin no 5" required>
+            </div>
+
+            <div class="form-group">
+                <label>Kapan diantar?</label>
+                <div class="choice-options">
+                    <label>
+                        <input type="radio" name="schedule-type" value="sekarang" checked> Sekarang
+                    </label>
+                    <label>
+                        <input type="radio" name="schedule-type" value="nanti"> Nanti
+                    </label>
+                </div>
+            </div>
+            <div id="schedule-section" class="form-group hidden">
+                <label for="schedule-datetime">Pilih Tanggal & Jam Pengantaran</label>
+                <input type="datetime-local" id="schedule-datetime" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Pilih Layanan</label>
+                <div class="service-grid">
+                    <button class="service-btn" data-service="Titip Beli">Titip Beli</button>
+                    <button class="service-btn" data-service="Kirim Barang">Kirim Barang</button>
+                    <button class="service-btn" data-service="Ojek">Ojek</button>
+                </div>
+            </div>
+
+            <div id="payment-section" class="hidden">
+                <div class="form-group">
+                    <label>Status Pembayaran Belanja</label>
+                    <div class="choice-options">
+                        <label>
+                            <input type="radio" name="payment-status" value="Sudah dibayar" required> Sudah dibayar
+                        </label>
+                        <label>
+                            <input type="radio" name="payment-status" value="Belum dibayar"> Belum dibayar
+                        </label>
+                    </div>
+                </div>
+                <div id="shopping-cost-section" class="form-group hidden">
+                    <label for="shopping-cost">Perkiraan Harga Belanja</label>
+                    <input type="number" id="shopping-cost" class="form-control" placeholder="Masukkan nominal, cth: 50000">
+                </div>
+            </div>
+
+            <div class="total-display">
+                <p>Total Biaya</p>
+                <h2 id="total-cost">Rp 0</h2>
+            </div>
+
+            <button id="submit-order" class="submit-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                <span>Kirim Orderan ke WhatsApp Admin</span>
+            </button>
+        </main>
+        
+        <section id="history-section">
+            <h3>Riwayat Pesanan</h3>
+            <ul id="history-list">
+                </ul>
+             <button id="clear-history-btn" class="hidden">Hapus Riwayat</button>
+        </section>
+
     </div>
 
-    <div class="input-row">
-      <div class="input-box">
-        <input type="text" id="tujuan" placeholder="Tulis minimal 4 Huruf Lokasi tujuan...">
-      </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // -- Elemen Form -- //
+            const pickupLocationEl = document.getElementById('pickup-location');
+            const pickupDetailEl = document.getElementById('pickup-detail');
+            const dropoffLocationEl = document.getElementById('dropoff-location');
+            const dropoffDetailEl = document.getElementById('dropoff-detail');
+            const scheduleTypeRadios = document.querySelectorAll('input[name="schedule-type"]');
+            const scheduleSection = document.getElementById('schedule-section');
+            const scheduleDateTimeEl = document.getElementById('schedule-datetime');
+            const serviceBtns = document.querySelectorAll('.service-btn');
+            const paymentSection = document.getElementById('payment-section');
+            const paymentStatusRadios = document.querySelectorAll('input[name="payment-status"]');
+            const shoppingCostSection = document.getElementById('shopping-cost-section');
+            const shoppingCostEl = document.getElementById('shopping-cost');
+            const totalCostEl = document.getElementById('total-cost');
+            const submitBtn = document.getElementById('submit-order');
+            const historyListEl = document.getElementById('history-list');
+            const clearHistoryBtn = document.getElementById('clear-history-btn');
 
-    <button class="hapus-btn" onclick="resetAlamat()">Hapus Alamat</button>
+            let selectedService = '';
+            const ADMIN_PHONE_NUMBER = '6285266610522';
 
-    <div class="status-row">
-      <div id="jarakOutput">Jarak: - km</div>
-      <div id="tarifOutput">Tarif: Rp -</div>
-    </div>
+            const state = {
+                pickupLocation: null, pickupDetail: '',
+                dropoffLocation: null, dropoffDetail: '',
+                service: '', paymentStatus: '', shoppingCost: 0,
+                timestamp: '', scheduleInfo: ''
+            };
+            
+            // ---- FUNGSI PERHITUNGAN & FORMAT ---- //
+            function calculateFare() {
+                const pickupKm = parseFloat(pickupLocationEl.value);
+                const dropoffKm = parseFloat(dropoffLocationEl.value);
+                const pickupIsOther = pickupLocationEl.options[pickupLocationEl.selectedIndex]?.text.includes('(Other)');
+                const dropoffIsOther = dropoffLocationEl.options[dropoffLocationEl.selectedIndex]?.text.includes('(Other)');
 
-    <div class="layanan">
-      <button type="button" data-type="ojek motor">🛵<small>Motor</small></button>
-      <button type="button" data-type="ojek mobil">🚗<small>Mobil</small></button>
-      <button type="button" data-type="antar barang">📦<small>Barang</small></button>
-    </div>
+                if (isNaN(pickupKm) || isNaN(dropoffKm) || !selectedService) return 0;
 
-    <textarea id="catatan" placeholder="Catatan (opsional)"></textarea>
-    <button class="pesan" id="kirimOrder" disabled>Kirim ke WhatsApp Admin</button>
-  </div>
+                const distance = Math.abs(pickupKm - dropoffKm);
+                let baseFare = 0, costPerKm = 1500, baseDistance = 2;
 
-  <script>
-    let map, jemputLoc, tujuanLoc, markerJemput, markerTujuan;
-    let jemputValid = false, tujuanValid = false, layananValid = false;
-    let selectedLayanan = null;
-    let directionsService, directionsRenderer, routeUrl = "";
+                switch (selectedService) {
+                    case 'Titip Beli': baseFare = 6000; break;
+                    case 'Kirim Barang': baseFare = 5000; break;
+                    case 'Ojek': baseFare = 7000; break;
+                }
 
-    const layananData = {
-      "ojek motor": { awal: 6000, jarak: 2, perkm: 2500 },
-      "ojek mobil": { awal: 15000, jarak: 2, perkm: 5000 },
-      "antar barang": { awal: 6000, jarak: 2, perkm: 2500 }
-    };
+                let deliveryFee = (distance <= baseDistance) ? baseFare : baseFare + (distance - baseDistance) * costPerKm;
+                if (pickupIsOther || dropoffIsOther) deliveryFee += 3000;
+                return deliveryFee;
+            }
 
-    function initMap() {
-      const defaultLoc = { lat: -2.052742, lng: 99.574232 };
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: defaultLoc,
-        zoom: 15,
-        gestureHandling: "greedy",
-        mapTypeId: google.maps.MapTypeId.HYBRID,
-        rotateControl: true,
-        tilt: 45
-      });
+            function updateTotal() {
+                const deliveryFee = calculateFare();
+                let shoppingCost = 0;
+                if (selectedService === 'Titip Beli' && document.querySelector('input[name="payment-status"]:checked')?.value === 'Belum dibayar') {
+                    shoppingCost = parseFloat(shoppingCostEl.value) || 0;
+                }
+                const total = deliveryFee + shoppingCost;
+                state.shoppingCost = shoppingCost;
+                totalCostEl.textContent = formatCurrency(total);
+            }
 
-      directionsService = new google.maps.DirectionsService();
-      directionsRenderer = new google.maps.DirectionsRenderer({ map });
+            function formatCurrency(amount) {
+                return new Intl.NumberFormat('id-ID', {
+                    style: 'currency', currency: 'IDR', minimumFractionDigits: 0
+                }).format(amount);
+            }
+            
+            // ---- PENGELOLA UI & STATE ---- //
+            function handleServiceSelection(e) {
+                serviceBtns.forEach(btn => btn.classList.remove('active'));
+                const clickedBtn = e.target;
+                clickedBtn.classList.add('active');
+                selectedService = clickedBtn.dataset.service;
+                state.service = selectedService;
 
-      const autoJemput = new google.maps.places.Autocomplete(document.getElementById("jemput"));
-      const autoTujuan = new google.maps.places.Autocomplete(document.getElementById("tujuan"));
+                paymentSection.classList.add('hidden');
+                shoppingCostSection.classList.add('hidden');
+                paymentStatusRadios.forEach(radio => radio.checked = false);
+                shoppingCostEl.value = '';
 
-      autoJemput.bindTo("bounds", map);
-      autoTujuan.bindTo("bounds", map);
+                if (selectedService === 'Titip Beli') {
+                    paymentSection.classList.remove('hidden');
+                }
+                updateTotal();
+            }
 
-      autoJemput.addListener("place_changed", () => {
-        const place = autoJemput.getPlace();
-        if (!place.geometry) return;
-        jemputLoc = place.geometry.location;
-        jemputValid = true;
-        placeMarker(jemputLoc, true);
-        if (tujuanLoc) drawRoute();
-        validateForm();
-      });
+            function handlePaymentStatusChange() {
+                const selectedPaymentStatus = document.querySelector('input[name="payment-status"]:checked').value;
+                state.paymentStatus = selectedPaymentStatus;
+                shoppingCostSection.classList.toggle('hidden', selectedPaymentStatus !== 'Belum dibayar');
+                if (selectedPaymentStatus === 'Sudah dibayar') shoppingCostEl.value = '';
+                updateTotal();
+            }
 
-      autoTujuan.addListener("place_changed", () => {
-        const place = autoTujuan.getPlace();
-        if (!place.geometry) return;
-        tujuanLoc = place.geometry.location;
-        tujuanValid = true;
-        placeMarker(tujuanLoc, false);
-        if (jemputLoc) drawRoute();
-        validateForm();
-      });
+            function handleScheduleChange() {
+                const scheduleType = document.querySelector('input[name="schedule-type"]:checked').value;
+                if (scheduleType === 'nanti') {
+                    scheduleSection.classList.remove('hidden');
+                    // Set min value to current time to prevent picking past dates
+                    const now = new Date();
+                    now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+                    scheduleDateTimeEl.min = now.toISOString().slice(0, 16);
+                } else {
+                    scheduleSection.classList.add('hidden');
+                }
+            }
 
-      map.addListener("click", (e) => {
-        if (!jemputLoc) {
-          jemputLoc = e.latLng;
-          jemputValid = true;
-          placeMarker(jemputLoc, true);
-          reverseGeocode(e.latLng, 'jemput');
-        } else {
-          tujuanLoc = e.latLng;
-          tujuanValid = true;
-          placeMarker(tujuanLoc, false);
-          reverseGeocode(e.latLng, 'tujuan');
-        }
-        if (jemputLoc && tujuanLoc) drawRoute();
-        validateForm();
-      });
-    }
+            // ---- PENGELOLA RIWAYAT ---- //
+            function loadHistory() {
+                const history = JSON.parse(localStorage.getItem('sifoodOrderHistory')) || [];
+                historyListEl.innerHTML = '';
+                clearHistoryBtn.classList.toggle('hidden', history.length === 0);
 
-    function reverseGeocode(latlng, type) {
-      const geocoder = new google.maps.Geocoder();
-      geocoder.geocode({ location: latlng }, (results, status) => {
-        if (status === "OK" && results[0]) {
-          document.getElementById(type).value = results[0].formatted_address;
-          validateForm();
-        }
-      });
-    }
+                history.forEach(order => {
+                    const li = document.createElement('li');
+                    li.classList.add('history-item');
+                    li.dataset.orderId = order.id;
 
-    function placeMarker(location, isJemput) {
-      const iconUrl = isJemput
-        ? "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
-        : "http://maps.google.com/mapfiles/ms/icons/red-dot.png";
-      const marker = new google.maps.Marker({
-        position: location,
-        map,
-        icon: iconUrl
-      });
-      if (isJemput) {
-        if (markerJemput) markerJemput.setMap(null);
-        markerJemput = marker;
-      } else {
-        if (markerTujuan) markerTujuan.setMap(null);
-        markerTujuan = marker;
-      }
-    }
+                    let shoppingInfo = '';
+                    if (order.service === 'Titip Beli') {
+                       shoppingInfo = `<p><strong>Pembayaran:</strong> ${order.paymentStatus}</p>`;
+                       if (order.shoppingCost > 0) {
+                           shoppingInfo += `<p><strong>Harga Barang:</strong> ${formatCurrency(order.shoppingCost)}</p>`;
+                       }
+                    }
+                    
+                    const timestampInfo = order.timestamp ? `<p><strong>Dipesan pada:</strong> ${order.timestamp}</p>` : '';
+                    const scheduleInfo = order.scheduleInfo ? `<p><strong>Jadwal Antar:</strong> ${order.scheduleInfo}</p>` : '';
 
-    function drawRoute() {
-      directionsService.route({
-        origin: jemputLoc,
-        destination: tujuanLoc,
-        travelMode: google.maps.TravelMode.DRIVING
-      }, (result, status) => {
-        if (status === "OK") {
-          directionsRenderer.setDirections(result);
-          const leg = result.routes[0].legs[0];
-          const jarak = leg.distance.value / 1000;
-          const tarif = hitungTarif(jarak);
-          const jemputStr = `${jemputLoc.lat()},${jemputLoc.lng()}`;
-          const tujuanStr = `${tujuanLoc.lat()},${tujuanLoc.lng()}`;
-          routeUrl = `https://www.google.com/maps/dir/?api=1&origin=${jemputStr}&destination=${tujuanStr}&travelmode=driving`;
+                    li.innerHTML = `
+                        ${timestampInfo}
+                        ${scheduleInfo}
+                        <p><strong>Layanan:</strong> ${order.service}</p>
+                        <p><strong>Jemput:</strong> ${order.pickupLocation.text} (${order.pickupDetail})</p>
+                        <p><strong>Antar:</strong> ${order.dropoffLocation.text} (${order.dropoffDetail})</p>
+                        ${shoppingInfo}
+                        <button class="reorder-btn">Order Ulang</button>
+                    `;
+                    historyListEl.appendChild(li);
+                });
+            }
+            
+            function saveOrderToHistory(orderData) {
+                let history = JSON.parse(localStorage.getItem('sifoodOrderHistory')) || [];
+                const newOrder = { ...orderData, id: new Date().getTime() };
+                history.unshift(newOrder); 
+                if (history.length > 10) history.pop();
+                localStorage.setItem('sifoodOrderHistory', JSON.stringify(history));
+                loadHistory();
+            }
+            
+            function handleHistoryClick(e) {
+                if (e.target.classList.contains('reorder-btn')) {
+                    const orderId = e.target.closest('.history-item').dataset.orderId;
+                    const history = JSON.parse(localStorage.getItem('sifoodOrderHistory')) || [];
+                    const orderToReorder = history.find(order => order.id == orderId);
+                    
+                    if (orderToReorder) {
+                        // Isi form utama
+                        pickupLocationEl.value = orderToReorder.pickupLocation.value;
+                        pickupDetailEl.value = orderToReorder.pickupDetail;
+                        dropoffLocationEl.value = orderToReorder.dropoffLocation.value;
+                        dropoffDetailEl.value = orderToReorder.dropoffDetail;
+                        
+                        // Reset Jadwal ke "Sekarang"
+                        document.querySelector('input[name="schedule-type"][value="sekarang"]').checked = true;
+                        scheduleSection.classList.add('hidden');
+                        scheduleDateTimeEl.value = '';
 
-          document.getElementById("jarakOutput").innerText = `Jarak: ${jarak.toFixed(2)} km`;
-          document.getElementById("tarifOutput").innerText = `Tarif: Rp ${tarif.toLocaleString("id-ID")}`;
-          document.getElementById("kirimOrder").dataset.jarak = jarak.toFixed(2);
-          document.getElementById("kirimOrder").dataset.tarif = tarif;
-        }
-      });
-    }
+                        // Isi layanan
+                        serviceBtns.forEach(btn => btn.classList.toggle('active', btn.dataset.service === orderToReorder.service));
+                        selectedService = orderToReorder.service;
+                        state.service = selectedService;
 
-    function hitungTarif(jarak) {
-      const l = layananData[selectedLayanan];
-      return jarak <= l.jarak ? l.awal : l.awal + Math.round((jarak - l.jarak) * l.perkm);
-    }
+                        // Isi detail pembayaran
+                        paymentSection.classList.add('hidden');
+                        if (orderToReorder.service === 'Titip Beli') {
+                            paymentSection.classList.remove('hidden');
+                            paymentStatusRadios.forEach(radio => radio.checked = (radio.value === orderToReorder.paymentStatus));
+                            shoppingCostSection.classList.toggle('hidden', orderToReorder.paymentStatus !== 'Belum dibayar');
+                            shoppingCostEl.value = (orderToReorder.paymentStatus === 'Belum dibayar') ? orderToReorder.shoppingCost : '';
+                        }
+                        
+                        updateTotal();
+                        window.scrollTo(0, 0); 
+                        alert('Data pesanan telah dimuat ulang. Jadwal direset ke "Sekarang".');
+                    }
+                }
+            }
 
-    document.querySelectorAll(".layanan button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".layanan button").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        selectedLayanan = btn.dataset.type;
-        layananValid = true;
-        if (jemputLoc && tujuanLoc) drawRoute();
-        validateForm();
-      });
-    });
+            function clearHistory() {
+                if (confirm('Anda yakin ingin menghapus semua riwayat pesanan?')) {
+                    localStorage.removeItem('sifoodOrderHistory');
+                    loadHistory();
+                }
+            }
 
-    function validateForm() {
-      const isValid = jemputValid && tujuanValid && layananValid;
-      document.getElementById("kirimOrder").disabled = !isValid;
-    }
+            // ---- PENGIRIMAN ORDER ---- //
+            function submitOrder() {
+                // -- Validasi & Pengumpulan Data -- //
+                if (!pickupLocationEl.value) { alert('Pilih lokasi jemput!'); return; }
+                if (!pickupDetailEl.value.trim()) { alert('Isi detail lokasi jemput!'); return; }
+                if (!dropoffLocationEl.value) { alert('Pilih lokasi antar!'); return; }
+                if (!dropoffDetailEl.value.trim()) { alert('Isi detail lokasi antar!'); return; }
+                
+                const scheduleType = document.querySelector('input[name="schedule-type"]:checked').value;
+                if (scheduleType === 'nanti' && !scheduleDateTimeEl.value) {
+                    alert('Pilih tanggal dan jam pengantaran!'); return;
+                }
 
-    document.getElementById("kirimOrder").addEventListener("click", () => {
-      if (!jemputValid || !tujuanValid || !layananValid) {
-        return alert("Silakan isi alamat jemput, tujuan, dan pilih layanan terlebih dahulu.");
-      }
-      const catatan = document.getElementById("catatan").value.trim();
-      const jarak = document.getElementById("kirimOrder").dataset.jarak || "-";
-      const tarif = document.getElementById("kirimOrder").dataset.tarif || "-";
-      const tambahan = "\n\nTerima kasih telah Menggunakan Layanan Sifood. Mau Jajan Makanan? Klik: *sifood.online* . Eh,, jangan lupa Hapenya stanby yah";
+                if (!selectedService) { alert('Pilih jenis layanan!'); return; }
 
-const pesan = `*Halo Admin, saya ingin pesan:*\nLayanan: ${selectedLayanan}\nJarak: ${jarak} km\nTarif: Rp ${tarif}\nCatatan: ${catatan || "(tidak ada)"}\nRute: ${routeUrl}${tambahan}`;
-      window.open(`https://wa.me/6285266610522?text=${encodeURIComponent(pesan)}`, "_blank");
-    });
+                // -- Kumpulkan semua data ke state -- //
+                const orderTimestamp = new Date().toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' }).replace(/\./g, ':');
+                state.timestamp = orderTimestamp;
+                
+                if (scheduleType === 'nanti') {
+                    const scheduledDate = new Date(scheduleDateTimeEl.value);
+                    state.scheduleInfo = scheduledDate.toLocaleString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' }).replace(/\./g, ':');
+                } else {
+                    state.scheduleInfo = 'Sekarang';
+                }
 
-    function resetAlamat() {
-      document.getElementById("jemput").value = '';
-      document.getElementById("tujuan").value = '';
-      jemputLoc = null;
-      tujuanLoc = null;
-      jemputValid = false;
-      tujuanValid = false;
-      if (markerJemput) markerJemput.setMap(null);
-      if (markerTujuan) markerTujuan.setMap(null);
-      directionsRenderer.setDirections({ routes: [] });
-      document.getElementById("jarakOutput").innerText = "Jarak: - km";
-      document.getElementById("tarifOutput").innerText = "Tarif: Rp -";
-      validateForm();
-    }
-  </script>
+                state.pickupLocation = { value: pickupLocationEl.value, text: pickupLocationEl.options[pickupLocationEl.selectedIndex].text };
+                state.pickupDetail = pickupDetailEl.value.trim();
+                state.dropoffLocation = { value: dropoffLocationEl.value, text: dropoffLocationEl.options[dropoffLocationEl.selectedIndex].text };
+                state.dropoffDetail = dropoffDetailEl.value.trim();
+                
+                // -- Format Pesan WhatsApp -- //
+                let message = `*Order Baru - Sifood*\n`;
+                message += `*Waktu Order: ${orderTimestamp}*\n`;
+                message += `*Jadwal Antar: ${state.scheduleInfo}*\n\n`;
+                message += `*LAYANAN: ${selectedService}*\n\n`;
+                message += `*JEMPUT DARI:*\n`;
+                message += `📍 Lokasi: ${state.pickupLocation.text}\n📝 Detail: ${state.pickupDetail}\n\n`;
+                message += `*ANTAR KE:*\n`;
+                message += `📍 Lokasi: ${state.dropoffLocation.text}\n📝 Detail: ${state.dropoffDetail}\n\n`;
 
-  <script async
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDA9arEhmxAiMD-h3Nd0WhaPpuGxlJimGI&libraries=places&callback=initMap">
-  </script>
+                const deliveryFee = calculateFare();
+                if (selectedService === 'Titip Beli') {
+                    const paymentStatus = document.querySelector('input[name="payment-status"]:checked');
+                    if (!paymentStatus) { alert('Pilih status pembayaran untuk Titip Beli!'); return; }
+                    
+                    state.paymentStatus = paymentStatus.value;
+                    message += `*STATUS BAYAR: ${state.paymentStatus}*\n`;
+
+                    if (state.paymentStatus === 'Belum dibayar') {
+                        const shoppingCost = parseFloat(shoppingCostEl.value) || 0;
+                        if (shoppingCost <= 0) { alert('Isi perkiraan harga belanja!'); return; }
+                        state.shoppingCost = shoppingCost;
+                        message += `*PERKIRAAN BELANJA: ${formatCurrency(state.shoppingCost)}*\n`;
+                    } else {
+                        state.shoppingCost = 0;
+                    }
+                }
+                
+                const totalCost = deliveryFee + state.shoppingCost;
+                message += `-------------------------------------\n`;
+                message += `*ONGKIR: ${formatCurrency(deliveryFee)}*\n`;
+                message += `*TOTAL BIAYA: ${formatCurrency(totalCost)}*\n\n`;
+                message += `Terima Kasih telah menggunakan layanan *www.sifood.online*  Orderanmu Akan segera kami Proses. mohon hapenya Stanby yah!`;
+
+                saveOrderToHistory(state);
+                const whatsappUrl = `https://wa.me/${ADMIN_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+
+            // ---- EVENT LISTENERS ---- //
+            pickupLocationEl.addEventListener('change', updateTotal);
+            dropoffLocationEl.addEventListener('change', updateTotal);
+            shoppingCostEl.addEventListener('input', updateTotal);
+            serviceBtns.forEach(btn => btn.addEventListener('click', handleServiceSelection));
+            paymentStatusRadios.forEach(radio => radio.addEventListener('change', handlePaymentStatusChange));
+            scheduleTypeRadios.forEach(radio => radio.addEventListener('change', handleScheduleChange));
+            submitBtn.addEventListener('click', submitOrder);
+            historyListEl.addEventListener('click', handleHistoryClick);
+            clearHistoryBtn.addEventListener('click', clearHistory);
+
+            // ---- INISIALISASI ---- //
+            loadHistory();
+        });
+    </script>
 </body>
 </html>
