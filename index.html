@@ -35,7 +35,7 @@
             align-items: flex-start;
             min-height: 100vh;
             padding: 15px;
-            font-size: 16px; /* Menetapkan basis font size */
+            font-size: 16px;
         }
 
         .container {
@@ -47,20 +47,42 @@
             overflow: hidden;
             position: relative;
         }
-
-        header {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 20px;
-            text-align: center;
+        
+        /* Slider CSS Start */
+        .slider-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            position: relative;
+            overflow: hidden;
+            background-color: var(--light-gray);
+            cursor: grab; /* Menandakan area bisa digeser */
+        }
+        
+        .slider-container:active {
+            cursor: grabbing;
         }
 
-        /* Dikecualikan dari perubahan */
-        header h1 {
-            font-size: 1.5em; 
-            font-weight: 600;
+        .slider-wrapper {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
         }
 
+        .slide {
+            flex: 0 0 100%;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            user-select: none; /* Mencegah gambar terseleksi saat digeser */
+            pointer-events: none; /* Mencegah event lain pada gambar */
+        }
+        /* Slider CSS End */
+        
         main {
             padding: 20px;
         }
@@ -73,7 +95,7 @@
             display: block;
             font-weight: 500;
             margin-bottom: 8px;
-            font-size: 0.95rem; /* Disesuaikan */
+            font-size: 0.95rem;
         }
 
         .form-control {
@@ -81,7 +103,7 @@
             padding: 12px;
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            font-size: 0.95rem; /* Disesuaikan */
+            font-size: 0.95rem;
             font-family: 'Poppins', sans-serif;
             transition: border-color 0.3s, box-shadow 0.3s;
         }
@@ -110,7 +132,7 @@
             border: 2px solid var(--border-color);
             background-color: #fff;
             font-weight: 600;
-            font-size: 0.95rem; /* Disesuaikan */
+            font-size: 0.95rem;
             cursor: pointer;
             transition: all 0.3s;
             color: var(--primary-color);
@@ -134,7 +156,7 @@
             align-items: center;
             gap: 8px;
             cursor: pointer;
-            font-size: 0.95rem; /* Disesuaikan */
+            font-size: 0.95rem;
         }
         
         input[type="radio"] {
@@ -160,7 +182,7 @@
         }
         
         #shopping-list-container .shopping-item-header {
-             font-size: 0.9rem; /* Disesuaikan agar sedikit berbeda untuk header */
+             font-size: 0.9rem;
              font-weight: 600;
              color: var(--text-color);
              margin-bottom: 10px;
@@ -177,19 +199,17 @@
         }
 
         .total-display p {
-            font-size: 0.95rem; /* Disesuaikan */
+            font-size: 0.95rem;
             font-weight: 500;
             margin-bottom: 5px;
         }
 
-        /* Dikecualikan dari perubahan */
         .total-display h2 {
             font-size: 2em;
             font-weight: 700;
             letter-spacing: 1px;
         }
         
-        /* Dikecualikan dari perubahan */
         .submit-btn {
             width: 100%;
             padding: 15px;
@@ -230,7 +250,7 @@
             text-align: center;
             margin-bottom: 15px;
             color: var(--primary-color);
-            font-size: 1.1rem; /* Disesuaikan untuk sub-judul */
+            font-size: 1.1rem;
         }
         
         #history-list {
@@ -251,7 +271,7 @@
         }
 
         .history-item p {
-            font-size: 0.95rem; /* Disesuaikan */
+            font-size: 0.95rem;
             margin-bottom: 5px;
             line-height: 1.4;
         }
@@ -265,7 +285,7 @@
             border-left: 3px solid var(--secondary-color);
             padding: 10px;
             margin-top: 10px;
-            font-size: 1em; /* Dibuat mewarisi ukuran font dari parent (.history-item p) */
+            font-size: 1em;
             border-radius: 4px;
         }
         
@@ -281,7 +301,7 @@
             padding: 8px 12px;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 0.9rem; /* Disesuaikan */
+            font-size: 0.9rem;
             transition: opacity 0.3s;
             position: absolute;
             top: 15px;
@@ -299,7 +319,7 @@
             border: none;
             padding: 8px 15px;
             border-radius: 5px;
-            font-size: 0.95rem; /* Disesuaikan */
+            font-size: 0.95rem;
             cursor: pointer;
         }
         
@@ -334,9 +354,16 @@
 <body>
 
     <div class="container">
-        <header>
-            <h1>Titip Beli Ojek & Kurir</h1>
-        </header>
+        <div class="slider-container" id="slider">
+            <div class="slider-wrapper">
+                <div class="slide"><img src="https://i.ibb.co.com/dJLmZGhp/IMG-20250508-230725-5-11zon.jpg" alt="Slider Image 1"></div>
+                <div class="slide"><img src="https://i.ibb.co.com/bgTQ546y/IMG-20250508-232846-1-11zon.jpg" alt="Slider Image 2"></div>
+                <div class="slide"><img src="https://i.ibb.co.com/mVG9k98W/IMG-20250508-230752-4-11zon.jpg" alt="Slider Image 3"></div>
+                <div class="slide"><img src="https://i.ibb.co.com/ZR6VbPM7/IMG-20250508-230825-3-11zon.jpg" alt="Slider Image 4"></div>
+                <div class="slide"><img src="https://i.ibb.co.com/bgTQ546y/IMG-20250508-232846-1-11zon.jpg" alt="Slider Image 5"></div>
+            </div>
+            </div>
+
 
         <main id="order-form">
             <div class="form-group">
@@ -485,6 +512,69 @@
 
     <script>
     document.addEventListener('DOMContentLoaded', () => {
+        // Slider Logic Start
+        const slider = document.getElementById('slider');
+        const sliderWrapper = slider.querySelector('.slider-wrapper');
+        const slides = slider.querySelectorAll('.slide');
+        
+        let currentIndex = 0;
+        let slideInterval;
+        let touchStartX = 0;
+        let touchEndX = 0;
+        const totalSlides = slides.length;
+
+        const goToSlide = (index) => {
+            sliderWrapper.style.transform = `translateX(-${index * 100}%)`;
+        };
+
+        const nextSlide = () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            goToSlide(currentIndex);
+        };
+
+        const prevSlide = () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
+            goToSlide(currentIndex);
+        };
+        
+        const startAutoSlide = () => {
+            // Reset interval sebelumnya untuk mencegah beberapa interval berjalan bersamaan
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 2000); // Ganti gambar setiap 2 detik
+        };
+
+        const stopAutoSlide = () => {
+            clearInterval(slideInterval);
+        };
+        
+        // Event listener untuk swipe/geser
+        slider.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+            stopAutoSlide(); // Hentikan slide otomatis saat pengguna mulai menyentuh
+        });
+        
+        slider.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+            startAutoSlide(); // Mulai kembali slide otomatis setelah pengguna selesai menggeser
+        });
+        
+        const handleSwipe = () => {
+            // Tentukan ambang batas geser untuk mencegah pergantian slide yang tidak disengaja
+            const swipeThreshold = 50; 
+            if (touchStartX - touchEndX > swipeThreshold) {
+                // Geser ke kiri (Next)
+                nextSlide();
+            } else if (touchEndX - touchStartX > swipeThreshold) {
+                // Geser ke kanan (Prev)
+                prevSlide();
+            }
+        };
+
+        startAutoSlide(); // Mulai slider otomatis saat halaman dimuat
+        // Slider Logic End
+
+
         const serviceBtns = document.querySelectorAll('.service-btn');
         const pickupLabel = document.getElementById('pickup-label');
         const pickupLocationEl = document.getElementById('pickup-location');
