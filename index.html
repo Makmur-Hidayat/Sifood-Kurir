@@ -3,973 +3,687 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sifood Titip Beli, Ojek & Kurir</title>
+    <title>Sabana Kurir Lubas</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
-
+        /* General Styling */
         :root {
-            --primary-color: #ff7043;
-            --primary-hover-color: #e65a2f;
-            --secondary-color: #3498db;
-            --accent-color: #2ecc71;
-            --light-gray: #f4f6f8;
-            --dark-gray: #95a5a6;
-            --bg-color: #ffffff;
-            --text-color: #34495e;
-            --error-color: #e74c3c;
-            --border-color: #dfe4ea;
+            --primary-color: #d32f2f; /* Warna utama (merah logo) */
+            --secondary-color: #ffc107;
+            --text-color: #212121;
+            --bg-color: #f5f5f5;
+            --white: #ffffff;
+            --black: #000000;
+            --grey: #757575;
+            --light-grey: #e0e0e0;
+            --error-color: #f44336;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background-color: var(--light-gray);
-            color: var(--text-color);
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            min-height: 100vh;
-            padding: 15px;
-            font-size: 16px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 480px;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            margin: 0;
             background-color: var(--bg-color);
-            border-radius: 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            position: relative;
-        }
-        
-        /* Slider CSS Start */
-        .slider-container {
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            position: relative;
-            overflow: hidden;
-            background-color: var(--light-gray);
-            cursor: grab; /* Menandakan area bisa digeser */
-        }
-        
-        .slider-container:active {
-            cursor: grabbing;
+            color: var(--text-color);
         }
 
-        .slider-wrapper {
-            display: flex;
-            height: 100%;
-            transition: transform 0.5s ease-in-out;
+        /* Paksa tampilan seperti di ponsel dengan max-width */
+        .container-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 15px;
         }
 
-        .slide {
-            flex: 0 0 100%;
-            width: 100%;
-            height: 100%;
-        }
-
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            user-select: none; /* Mencegah gambar terseleksi saat digeser */
-            pointer-events: none; /* Mencegah event lain pada gambar */
-        }
-        /* Slider CSS End */
-        
-        main {
-            padding: 20px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-        }
-
-        .form-group label {
-            display: block;
-            font-weight: 500;
-            margin-bottom: 8px;
-            font-size: 0.95rem;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            font-size: 0.95rem;
-            font-family: 'Poppins', sans-serif;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
-        }
-
-        textarea.form-control {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .service-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
+        h2 {
+            font-size: 1.3em;
+            color: var(--text-color);
+            border-bottom: 3px solid var(--primary-color);
+            padding-bottom: 8px;
+            margin-top: 25px;
             margin-bottom: 20px;
         }
 
-        .service-btn {
-            padding: 12px 5px;
-            border-radius: 8px;
-            border: 2px solid var(--border-color);
-            background-color: #fff;
-            font-weight: 600;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            color: var(--primary-color);
-        }
-
-        .service-btn.active {
-            background-color: var(--primary-color);
-            color: white;
-            border-color: var(--primary-color);
-            box-shadow: 0 4px 12px rgba(255, 112, 67, 0.3);
-        }
-
-        .choice-options {
-            display: flex;
-            gap: 20px;
-            margin-bottom: 15px;
-        }
-
-        .choice-options label {
+        /* Header */
+        .header {
             display: flex;
             align-items: center;
-            gap: 8px;
-            cursor: pointer;
-            font-size: 0.95rem;
-        }
-        
-        input[type="radio"] {
-            accent-color: var(--primary-color);
+            padding: 10px 15px;
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
 
-        .service-specific-options {
-            padding: 15px;
-            background-color: var(--light-gray);
-            border-radius: 8px;
-            margin-top: 15px;
+        .header img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
         }
-        
-        #shopping-list-container .shopping-item-row {
+
+        .header h1 {
+            font-size: 1.5em;
+            color: var(--primary-color);
+            margin: 0;
+            font-weight: bold;
+        }
+
+        /* --- HALAMAN UTAMA --- */
+        #main-page {
+            padding-top: 20px;
+        }
+
+        /* Store Grid Layout (Paksa 2 Kolom) */
+        .store-grid {
             display: grid;
-            grid-template-columns: 25px 1fr 70px 70px;
-            gap: 8px;
-            align-items: center;
-            margin-bottom: 8px;
-        }
-        #shopping-list-container .shopping-item-row span {
-            text-align: center;
-        }
-        
-        #shopping-list-container .shopping-item-header {
-             font-size: 0.9rem;
-             font-weight: 600;
-             color: var(--text-color);
-             margin-bottom: 10px;
-             padding: 0 5px;
+            grid-template-columns: 1fr 1fr; /* Dua kolom sama lebar */
+            gap: 15px;
         }
 
-        .total-display {
-            background-color: var(--light-gray);
-            color: var(--primary-color);
-            padding: 20px;
-            text-align: center;
-            border-radius: 8px;
-            margin-top: 20px;
-        }
-
-        .total-display p {
-            font-size: 0.95rem;
-            font-weight: 500;
-            margin-bottom: 5px;
-        }
-
-        .total-display h2 {
-            font-size: 2em;
-            font-weight: 700;
-            letter-spacing: 1px;
-        }
-        
-        .submit-btn {
-            width: 100%;
-            padding: 15px;
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 1.1em;
-            font-weight: 600;
+        .store-card {
+            background-color: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
             cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
+            flex-direction: column;
         }
 
-        .submit-btn:hover {
-            background-color: var(--primary-hover-color);
-        }
-        
-        .submit-btn svg {
-            width: 24px;
-            height: 24px;
+        .store-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
         }
 
-        .hidden {
-            display: none !important;
-        }
-
-        #history-section {
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-
-        #history-section h3 {
-            text-align: center;
-            margin-bottom: 15px;
-            color: var(--primary-color);
-            font-size: 1.1rem;
-        }
-        
-        #history-list {
-            list-style: none;
-            padding: 0;
-            max-height: 300px;
-            overflow-y: auto;
-        }
-        
-        .history-item {
-            background: white;
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        .store-card .store-image-container {
+            height: 140px;
+            width: 100%;
             position: relative;
         }
 
-        .history-item p {
-            font-size: 0.95rem;
-            margin-bottom: 5px;
-            line-height: 1.4;
+        .store-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
         
-        .history-item p strong {
+        .store-card-info {
+            padding: 12px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .store-card-info h3 {
+            font-size: 1em;
+            margin: 0 0 8px 0;
             color: var(--primary-color);
         }
         
-        .history-item .details-block {
-            background-color: var(--light-gray);
-            border-left: 3px solid var(--secondary-color);
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 1em;
-            border-radius: 4px;
+        .store-card-info p {
+            font-size: 0.8em;
+            margin: 2px 0;
+            color: var(--grey);
+            line-height: 1.4;
+        }
+        .store-card-info p strong {
+            color: var(--text-color);
         }
         
-        .history-item .details-block ul {
-            padding-left: 15px;
-            margin: 0;
+        /* Store Closed State */
+        .store-card.closed {
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .store-card.closed:hover {
+            transform: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+        .store-card.closed .store-image-container img {
+            filter: grayscale(100%);
+        }
+        .store-card.closed .closed-overlay {
+            display: flex;
         }
 
-        .history-item .reorder-btn {
-            background-color: var(--secondary-color);
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: opacity 0.3s;
+        .closed-overlay {
             position: absolute;
-            top: 15px;
-            right: 15px;
-        }
-        .history-item .reorder-btn:hover {
-            opacity: 0.85;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: var(--white);
+            font-size: 1.5em;
+            font-weight: bold;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            text-shadow: 0 0 5px var(--black);
         }
         
-        #clear-history-btn {
+        /* Action Button */
+        .action-button {
             display: block;
-            margin: 15px auto 0;
-            background: var(--error-color);
-            color: white;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary-color);
+            color: var(--white);
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-size: 0.95rem;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-weight: bold;
             cursor: pointer;
+            text-align: center;
+            margin-top: 25px;
+            transition: background-color 0.2s;
+        }
+        .action-button:hover {
+            background-color: #b71c1c;
+        }
+
+
+        /* --- HALAMAN ORDER --- */
+        #order-page {
+            display: none; /* Sembunyi secara default */
+            padding-bottom: 20px;
         }
         
-        .toast-notification {
-            position: fixed;
-            top: 25vh;
+        #image-viewer {
+            height: 50vh;
+            width: 100vw;
+            position: relative;
             left: 50%;
-            transform: translate(-50%, -50%); 
-            padding: 14px 22px;
-            border-radius: 10px;
-            color: white;
-            font-weight: 500;
-            z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-            text-align: center;
-            animation: fade-in-down 0.5s ease-out forwards, fade-out-up 0.5s ease-in 2.5s forwards;
+            transform: translateX(-50%);
+            background-color: var(--black);
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+            cursor: grab;
+        }
+        #image-viewer:active { cursor: grabbing; }
+
+        #panned-image {
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            max-width: none;
+            display: block;
         }
 
-        .toast-notification.error { background-color: var(--error-color); }
-        .toast-notification.success { background-color: var(--accent-color); }
+        .order-content {
+            padding: 20px;
+            background-color: var(--white);
+            margin: -30px 0 0 0;
+            border-radius: 12px;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+        }
 
-        @keyframes fade-in-down {
-            from { opacity: 0; transform: translate(-50%, -100%); }
-            to { opacity: 1; transform: translate(-50%, -50%); }
-        }
-        @keyframes fade-out-up {
-            from { opacity: 1; transform: translate(-50%, -50%); }
-            to { opacity: 0; transform: translate(-50%, -100%); }
-        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 1.1em; }
+        .form-group input, .form-group textarea { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 8px; box-sizing: border-box; font-size: 1em; }
+        
+        #store-name-output { background-color: var(--light-grey); font-weight: bold; color: var(--primary-color); }
+
+        #order-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        #order-table th, #order-table td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        #order-table th { background-color: #f2f2f2; }
+        #order-table input { width: 100%; border: none; padding: 5px; box-sizing: border-box; background-color: transparent; }
+        #order-table input:focus { outline: none; background-color: #e3f2fd; }
+        #order-table input[type="number"] { -moz-appearance: textfield; }
+        #order-table input::-webkit-outer-spin-button,
+        #order-table input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+        .info-label { background-color: #fff3cd; border-left: 5px solid #ffeeba; color: #856404; padding: 15px; border-radius: 8px; margin-top: 20px; line-height: 1.6; }
+        .info-label.important { background-color: #f8d7da; border-left-color: #f5c6cb; color: #721c24; }
+        .info-label h3 { margin-top: 0; font-size: 1.1em; }
+        
+        .notification { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); background-color: var(--error-color); color: white; padding: 15px 25px; border-radius: 0 0 8px 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1000; font-weight: bold; transition: top 0.5s ease-in-out; }
+        .notification.show { top: 0; }
+        
+        #history-section { display: none; margin-top: 20px; }
+        .history-item { background: var(--white); padding: 15px; border-radius: 8px; margin-bottom: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .history-header { font-weight: bold; margin-bottom: 10px; }
+        .history-details { font-size: 0.9em; white-space: pre-wrap; word-wrap: break-word; margin-bottom: 10px; }
+        .reorder-btn { padding: 8px 12px; background-color: var(--secondary-color); color: var(--text-color); border: none; border-radius: 4px; cursor: pointer; font-weight: bold; }
+        .reorder-btn:hover { opacity: 0.8; }
+
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="slider-container" id="slider">
-            <div class="slider-wrapper">
-                <div class="slide"><img src="https://i.ibb.co.com/dJLmZGhp/IMG-20250508-230725-5-11zon.jpg" alt="Slider Image 1"></div>
-                <div class="slide"><img src="https://i.ibb.co.com/bgTQ546y/IMG-20250508-232846-1-11zon.jpg" alt="Slider Image 2"></div>
-                <div class="slide"><img src="https://i.ibb.co.com/mVG9k98W/IMG-20250508-230752-4-11zon.jpg" alt="Slider Image 3"></div>
-                <div class="slide"><img src="https://i.ibb.co.com/ZR6VbPM7/IMG-20250508-230825-3-11zon.jpg" alt="Slider Image 4"></div>
-                <div class="slide"><img src="https://i.ibb.co.com/bgTQ546y/IMG-20250508-232846-1-11zon.jpg" alt="Slider Image 5"></div>
-            </div>
-            </div>
+    <div id="notification-banner" class="notification"></div>
 
+    <header class="header">
+        <img src="https://i.ibb.co.com/dsKfTmPS/FB-IMG-1749445159783.jpg" alt="Logo Sabana Kurir Lubas">
+        <h1>SABANA KURIR LUBAS</h1>
+    </header>
 
-        <main id="order-form">
-            <div class="form-group">
-                <label>Pilih Layanan</label>
-                <div class="service-grid">
-                    <button class="service-btn" data-service="Titip Beli">🛒 Titip Beli</button>
-                    <button class="service-btn" data-service="Kirim Barang">📦 Kirim Barang</button>
-                    <button class="service-btn" data-service="Ojek">🛵 Ojek</button>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="pickup-location" id="pickup-label">Lokasi Jemput</label>
-                <select id="pickup-location" class="form-control" required>
-                    <option value="">-- 📍 Pilih Lokasi --</option>
-                    <option value="0">Kilometer-0</option>
-                    <option value="1">Kilometer-1</option>
-                    <option value="2">Kilometer-2</option>
-                    <option value="3">Kilometer-3</option>
-                    <option value="4">Kilometer-4</option>
-                    <option value="5">Kilometer-5</option>
-                    <option value="6">Kilometer-6</option>
-                    <option value="7">Kilometer-7</option>
-                    <option value="9">Kilometer-9</option>
-                    <option value="10">Kilometer-10</option>
-                    <option value="6">(Other) SP2 Desa Sido Makmur</option>
-                    <option value="4">(Other) Mapaddegat Bawah</option>
-                    <option value="10">(Other) SP3 Bukit Pamewa</option>
-                    <option value="20">(Other) Desa Goisooinan</option>
-                    <option value="35">(Other) Desa Pogari</option>
-                    <option value="42">(Other) Bandara Rokot</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="text" id="pickup-detail" class="form-control" placeholder="Detai Lokasi Jemput, Cth: Pelabuhan Kapal Mentawai fast" required>
-            </div>
-
-            <div class="form-group">
-                <label for="dropoff-location">Lokasi Antar</label>
-                <select id="dropoff-location" class="form-control" required>
-                    <option value="">-- 📍 Pilih Lokasi Antar --</option>
-                    <option value="0">Kilometer-0</option>
-                    <option value="1">Kilometer-1</option>
-                    <option value="2">Kilometer-2</option>
-                    <option value="3">Kilometer-3</option>
-                    <option value="4">Kilometer-4</option>
-                    <option value="5">Kilometer-5</option>
-                    <option value="6">Kilometer-6</option>
-                    <option value="7">Kilometer-7</option>
-                    <option value="9">Kilometer-9</option>
-                    <option value="10">Kilometer-10</option>
-                    <option value="6">(Other) SP2 Desa Sido Makmur</option>
-                    <option value="4">(Other) Mapaddegat Bawah</option>
-                    <option value="10">(Other) SP3 Bukit Pamewa</option>
-                    <option value="20">(Other) Desa Goisooinan</option>
-                    <option value="35">(Other) Desa Pogari</option>
-                    <option value="42">(Other) Bandara Rokot</option>
-                </select>
-            </div>
-            <div class="form-group">
-                <input type="text" id="dropoff-detail" class="form-control" placeholder="Detail Lokasi Antar,  Cth: gang beringin no 5" required>
-            </div>
-
-            <div class="form-group">
-                <div class="choice-options">
-                    <label><input type="radio" name="schedule-type" value="sekarang" checked> Untuk Sekarang</label>
-                    <label><input type="radio" name="schedule-type" value="nanti"> Untuk Nanti</label>
-                </div>
-            </div>
-            <div id="schedule-section" class="form-group hidden">
-                <label for="schedule-datetime">Pilih Tanggal & Jam Pengantaran</label>
-                <input type="datetime-local" id="schedule-datetime" class="form-control">
-            </div>
-
-            <div id="titip-beli-options" class="service-specific-options hidden">
-                <div class="form-group">
-                    <div id="shopping-list-container">
-                        <div class="shopping-item-row shopping-item-header">
-                            <span>No.</span>
-                            <span>Nama Barang</span>
-                            <span>Jumlah</span>
-                            <span>Satuan</span>
-                        </div>
-                        <div class="shopping-item-row">
-                             <span>1.</span>
-                             <input type="text" class="form-control shopping-item-name" placeholder="Telur">
-                             <input type="number" class="form-control shopping-item-qty" placeholder="10">
-                             <input type="text" class="form-control shopping-item-unit" placeholder="butir">
-                        </div>
-                    </div>
-                </div>
-                <div id="shopping-cost-section" class="form-group">
-                    <input type="number" id="shopping-cost" class="form-control" placeholder="Perkiraan total Belanjaan cth: 50000" required>
-                </div>
-            </div>
-
-            <div id="kirim-barang-options" class="service-specific-options hidden">
-                <div class="form-group">
-                    
-                     <input type="text" id="item-info" class="form-control" placeholder="Info Barang, Cth: Dus, Baju, Kunci" required>
-                </div>
-                <div class="form-group">
-               
-                    <div class="choice-options">
-                        <label><input type="radio" name="shipping-payer" value="Pengirim" required checked> Ongkir dibayar Pengirim</label>
-                        <label><input type="radio" name="shipping-payer" value="Penerima"> ongkir dibayar Penerima</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="choice-options">
-                        <label><input type="radio" name="cod-status" value="Sudah Lunas" required checked> Barang Sudah Lunas</label>
-                        <label><input type="radio" name="cod-status" value="Belum Lunas (COD)"> Barang Belum Lunas (COD)</label>
-                    </div>
-                </div>
-                <div id="cod-cost-section" class="form-group hidden">
-                
-                    <input type="number" id="cod-cost" class="form-control" placeholder="Harga Barang, cth: 150000">
-                </div>
-            </div>
-            
-            <div id="ojek-options" class="service-specific-options hidden">
-                 <div class="form-group">
-              
-                     <textarea id="ojek-notes" class="form-control" placeholder="Catatan, Cth: Mohon tunggu di depan gerbang, pakai helm" required></textarea>
-                </div>
-            </div>
-
-            <div class="total-display">
-                <p>Total Biaya</p>
-                <h2 id="total-cost">Rp 0</h2>
-            </div>
-
-            <button id="submit-order" class="submit-btn">
-                <svg viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg"><path d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.72 1.18-.49.07-1.12.04-1.68-.16-1.34-.48-2.53-1.42-3.4-2.8-.75-1.21-1.11-2.02-1.23-2.67-.12-.65.2-1.02.51-1.33.2-.21.42-.26.58-.26.16 0 .33.01.46.03.17.02.26.04.44.57.2.53.33 1.11.36 1.18.04.07.03.2-.02.32-.05.12-.13.21-.24.33-.11.12-.24.26-.38.4-.13.14-.27.3-.14.54.13.24.59.93 1.28 1.55.88.78 1.55 1.01 1.81 1.1.1.03.2.02.28-.02.08-.04.28-.33.39-.45.11-.11.23-.21.37-.16.14.05.86.41 1.02.49.16.08.27.13.31.2zM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
-                <span>Kirim Orderan ke WhatsApp Admin</span>
-            </button>
-        </main>
-        
-        <section id="history-section">
-            <h3>Riwayat Pesanan</h3>
-            <ul id="history-list"></ul>
-            <button id="clear-history-btn" class="hidden">Hapus Riwayat</button>
+    <div id="main-page" class="container-wrapper">
+        <section class="store-selector">
+            <h2>Pilih Toko Tujuan</h2>
+            <div class="store-grid" id="store-list"></div>
         </section>
 
+        <button id="toggle-history-btn" class="action-button" style="background-color: var(--grey);">Lihat Riwayat Orderan</button>
+        
+        <section id="history-section">
+            <h2>Riwayat Orderan</h2>
+            <div id="order-history"></div>
+        </section>
+    </div>
+
+    <div id="order-page">
+        <div id="image-viewer">
+            <img id="panned-image" src="" alt="Gambar Toko">
+        </div>
+
+        <div class="container-wrapper">
+            <div class="order-content">
+                <div class="form-group">
+                    <label for="store-name-output">Nama Toko</label>
+                    <input type="text" id="store-name-output" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label>Form Pemesanan</label>
+                    <table id="order-table">
+                        <thead>
+                            <tr>
+                                <th style="width:10%">No</th>
+                                <th>Nama Barang</th>
+                                <th style="width:15%">Jumlah</th>
+                                <th>Keterangan</th>
+                            </tr>
+                        </thead>
+                        <tbody id="order-items"></tbody>
+                    </table>
+                </div>
+
+                <div class="form-group">
+                    <label for="delivery-address">Alamat Antar</label>
+                    <textarea id="delivery-address" rows="3" placeholder="Contoh: Jl. Sabana Kurir no. 10, rumah warna putih, dekat taman"></textarea>
+                </div>
+
+                <div class="info-label">
+                    <h3>Tarif Ongkir Kami</h3>
+                    0-3 Kilometer: Rp 7.000<br>
+                    4-6 Kilometer: Rp 12.000<br>
+                    7-11 Kilometer: Rp 17.000<br>
+                    11+ Kilometer: Bisa Nego
+                </div>
+
+                <div class="info-label important">
+                    <h3>Penting!!</h3>
+                    Orderan hanya di Proses jika Chatmu terkirim ke Whatsapp Admin. Total Pesanan + Ongkir Kami Infokan Di Whatsapp.
+                </div>
+
+                <button id="submit-order" class="action-button">Kirim Orderan ke Whatsapp</button>
+                <button id="back-to-main-btn" class="action-button" style="background-color: var(--grey); margin-top: 10px;">Kembali Pilih Toko</button>
+            </div>
+        </div>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Slider Logic Start
-        const slider = document.getElementById('slider');
-        const sliderWrapper = slider.querySelector('.slider-wrapper');
-        const slides = slider.querySelectorAll('.slide');
-        
-        let currentIndex = 0;
-        let slideInterval;
-        let touchStartX = 0;
-        let touchEndX = 0;
-        const totalSlides = slides.length;
-
-        const goToSlide = (index) => {
-            sliderWrapper.style.transform = `translateX(-${index * 100}%)`;
-        };
-
-        const nextSlide = () => {
-            currentIndex = (currentIndex + 1) % totalSlides;
-            goToSlide(currentIndex);
-        };
-
-        const prevSlide = () => {
-            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides;
-            goToSlide(currentIndex);
-        };
-        
-        const startAutoSlide = () => {
-            // Reset interval sebelumnya untuk mencegah beberapa interval berjalan bersamaan
-            clearInterval(slideInterval);
-            slideInterval = setInterval(nextSlide, 2000); // Ganti gambar setiap 2 detik
-        };
-
-        const stopAutoSlide = () => {
-            clearInterval(slideInterval);
-        };
-        
-        // Event listener untuk swipe/geser
-        slider.addEventListener('touchstart', e => {
-            touchStartX = e.changedTouches[0].screenX;
-            stopAutoSlide(); // Hentikan slide otomatis saat pengguna mulai menyentuh
-        });
-        
-        slider.addEventListener('touchend', e => {
-            touchEndX = e.changedTouches[0].screenX;
-            handleSwipe();
-            startAutoSlide(); // Mulai kembali slide otomatis setelah pengguna selesai menggeser
-        });
-        
-        const handleSwipe = () => {
-            // Tentukan ambang batas geser untuk mencegah pergantian slide yang tidak disengaja
-            const swipeThreshold = 50; 
-            if (touchStartX - touchEndX > swipeThreshold) {
-                // Geser ke kiri (Next)
-                nextSlide();
-            } else if (touchEndX - touchStartX > swipeThreshold) {
-                // Geser ke kanan (Prev)
-                prevSlide();
+    document.addEventListener('DOMContentLoaded', function() {
+        /**
+         * PERHATIAN: Link gambar i.ibb.co sebelumnya rusak.
+         * Ganti URL gambar di bawah ini dengan link gambar Anda yang valid.
+         * Ukuran 400x300 adalah contoh yang baik.
+        */
+        const stores = [
+            {
+                id: 1,
+                name: "Warung Sabana Kurir",
+                location: "Perumahan Lubas",
+                hours: "Senin - Minggu, 12:00 - 21:00",
+                image: "https://i.ibb.co.com/ccCF2HrN/images-1749444437201.jpg"
+            },
+            {
+                id: 2,
+                name: "Warung Kurir Lubas",
+                location: "Dekat kantor BPBD",
+                hours: "Senin - Jumat, 13:00 - 24:00",
+                image: "https://i.ibb.co.com/ks25550B/images-1-1749444437215.jpg"
+            },
+            {
+                id: 3,
+                name: "Warung Andik",
+                location: "Dekat kantor Basarnas",
+                hours: "Senin - Jumat, 00:00 - 24:00",
+                image: "https://i.ibb.co.com/Y7SM6gGV/images-4.jpg"
+            },
+            {
+                id: 4,
+                name: "Warung Momoyi",
+                location: "Dekat RSUD",
+                hours: "Senin - Jumat, 10:00 - 24:00",
+                image: "https://i.ibb.co.com/G44vHV1r/images-5.jpg"
+            },
+            {
+                id: 5,
+                name: "Warung Tutup (Contoh)",
+                location: "Lokasi Uji Coba",
+                hours: "Senin - Minggu, 08:00 - 10:00", // Jam yang kemungkinan besar sudah lewat
+                image: "https://i.ibb.co.com/ccCF2HrN/images-1749444437201.jpg"
             }
-        };
-
-        startAutoSlide(); // Mulai slider otomatis saat halaman dimuat
-        // Slider Logic End
-
-
-        const serviceBtns = document.querySelectorAll('.service-btn');
-        const pickupLabel = document.getElementById('pickup-label');
-        const pickupLocationEl = document.getElementById('pickup-location');
-        const pickupDetailEl = document.getElementById('pickup-detail');
-        const dropoffLocationEl = document.getElementById('dropoff-location');
-        const dropoffDetailEl = document.getElementById('dropoff-detail');
-        const scheduleTypeRadios = document.querySelectorAll('input[name="schedule-type"]');
-        const scheduleSection = document.getElementById('schedule-section');
-        const scheduleDateTimeEl = document.getElementById('schedule-datetime');
-        const totalCostEl = document.getElementById('total-cost');
-        const submitBtn = document.getElementById('submit-order');
-        const historyListEl = document.getElementById('history-list');
-        const clearHistoryBtn = document.getElementById('clear-history-btn');
-
-        const titipBeliOptions = document.getElementById('titip-beli-options');
-        const shoppingListContainer = document.getElementById('shopping-list-container');
-        const shoppingCostEl = document.getElementById('shopping-cost');
-
-        const kirimBarangOptions = document.getElementById('kirim-barang-options');
-        const itemInfoEl = document.getElementById('item-info');
-        const codStatusRadios = document.querySelectorAll('input[name="cod-status"]');
-        const codCostSection = document.getElementById('cod-cost-section');
-        const codCostEl = document.getElementById('cod-cost');
-        const shippingPayerRadios = document.querySelectorAll('input[name="shipping-payer"]');
-
-        const ojekOptions = document.getElementById('ojek-options');
-        const ojekNotesEl = document.getElementById('ojek-notes');
+        ];
         
-        let selectedService = '';
-        const ADMIN_PHONE_NUMBER = '6285266610522'; 
-
-        function showToast(message, type = 'error') {
-            const existingToast = document.querySelector('.toast-notification');
-            if (existingToast) existingToast.remove();
-            const toast = document.createElement('div');
-            toast.textContent = message;
-            toast.className = `toast-notification ${type}`;
-            document.body.appendChild(toast);
-            setTimeout(() => toast.remove(), 3000);
-        }
+        const mainPage = document.getElementById('main-page');
+        const orderPage = document.getElementById('order-page');
+        const storeListContainer = document.getElementById('store-list');
+        const pannedImage = document.getElementById('panned-image');
         
-        function calculateFare() {
-            const pickupKm = parseFloat(pickupLocationEl.value);
-            const dropoffKm = parseFloat(dropoffLocationEl.value);
-            if (isNaN(pickupKm) || isNaN(dropoffKm) || !selectedService) return 0;
-
-            const distance = Math.abs(pickupKm - dropoffKm);
-            let baseFare = 0, costPerKm = 1500, baseDistance = 2;
-            switch (selectedService) {
-                case 'Titip Beli': baseFare = 6000; break;
-                case 'Kirim Barang': baseFare = 5000; break;
-                case 'Ojek': baseFare = 7000; break;
-            }
-            let deliveryFee = (distance <= baseDistance) ? baseFare : baseFare + (distance - baseDistance) * costPerKm;
-            const pickupIsOther = pickupLocationEl.options[pickupLocationEl.selectedIndex]?.text.includes('(Other)');
-            const dropoffIsOther = dropoffLocationEl.options[dropoffLocationEl.selectedIndex]?.text.includes('(Other)');
-            if (pickupIsOther || dropoffIsOther) deliveryFee += 3000;
-            return deliveryFee;
-        }
+        const storeNameOutput = document.getElementById('store-name-output');
+        const orderItemsTableBody = document.getElementById('order-items');
+        const deliveryAddress = document.getElementById('delivery-address');
         
-        function updateTotal() {
-            const deliveryFee = calculateFare();
-            let additionalCost = 0;
-            if (selectedService === 'Titip Beli') {
-                additionalCost = parseFloat(shoppingCostEl.value) || 0;
-            } else if (selectedService === 'Kirim Barang' && document.querySelector('input[name="cod-status"]:checked')?.value === 'Belum Lunas (COD)') {
-                additionalCost = parseFloat(codCostEl.value) || 0;
-            }
-            const total = deliveryFee + additionalCost;
-            totalCostEl.textContent = formatCurrency(total);
-        }
+        const submitButton = document.getElementById('submit-order');
+        const backButton = document.getElementById('back-to-main-btn');
+        const toggleHistoryBtn = document.getElementById('toggle-history-btn');
+        const historySection = document.getElementById('history-section');
+        const historyContainer = document.getElementById('order-history');
 
-        function formatCurrency(amount) {
-            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
-        }
-        
-        function handleServiceSelection(e) {
-            serviceBtns.forEach(btn => btn.classList.remove('active'));
-            const clickedBtn = e.target.closest('.service-btn');
-            clickedBtn.classList.add('active');
-            selectedService = clickedBtn.dataset.service;
+        const adminWhatsapp = '6285266610522';
 
-            titipBeliOptions.classList.add('hidden');
-            kirimBarangOptions.classList.add('hidden');
-            ojekOptions.classList.add('hidden');
-            
-            switch (selectedService) {
-                case 'Titip Beli':
-                    pickupLabel.textContent = 'Lokasi Belanja';
-                    pickupDetailEl.placeholder = 'Detail Lokasi Belanja, Cth: Kedai Maskus';
-                    titipBeliOptions.classList.remove('hidden');
-                    break;
-                case 'Kirim Barang':
-                    pickupLabel.textContent = 'Lokasi Jemput';
-                    pickupDetailEl.placeholder = 'Detai Lokasi jemput, Cth: Depan kantor pos';
-                    kirimBarangOptions.classList.remove('hidden');
-                    break;
-                case 'Ojek':
-                    pickupLabel.textContent = 'Lokasi Jemput';
-                    pickupDetailEl.placeholder = 'detai lokasi jemput, Cth: Depan Bank Nagari';
-                    ojekOptions.classList.remove('hidden');
-                    break;
-            }
-            updateTotal();
-        }
-        
-        function handleCodStatusChange() {
-            codCostSection.classList.toggle('hidden', document.querySelector('input[name="cod-status"]:checked').value !== 'Belum Lunas (COD)');
-            if(document.querySelector('input[name="cod-status"]:checked').value === 'Sudah Lunas') codCostEl.value = '';
-            updateTotal();
-        }
+        function parseHoursAndCheckOpen(hoursString) {
+            const now = new Date();
+            const currentDay = now.getDay();
+            const currentTime = now.getHours() * 100 + now.getMinutes();
+            const daysMap = { 'minggu': 0, 'senin': 1, 'selasa': 2, 'rabu': 3, 'kamis': 4, 'jumat': 5, 'sabtu': 6 };
 
-        function handleShoppingListInput(e) {
-            if (e.target.classList.contains('shopping-item-name')) {
-                const currentRow = e.target.closest('.shopping-item-row');
-                const allRows = Array.from(shoppingListContainer.querySelectorAll('.shopping-item-row')).filter(row => !row.classList.contains('shopping-item-header'));
-                const lastRow = allRows[allRows.length - 1];
-                if (currentRow === lastRow && e.target.value.trim() !== '') {
-                    addShoppingListItem();
-                }
-            }
-        }
-        
-        function addShoppingListItem(item = { name: '', qty: '', unit: '' }) {
-            const itemCount = shoppingListContainer.querySelectorAll('.shopping-item-row').length;
-            const newRow = document.createElement('div');
-            newRow.classList.add('shopping-item-row');
-            newRow.innerHTML = `
-                <span>${itemCount}.</span>
-                <input type="text" class="form-control shopping-item-name" placeholder="Nama Barang" value="${item.name}">
-                <input type="number" class="form-control shopping-item-qty" placeholder="Jml" value="${item.qty}">
-                <input type="text" class="form-control shopping-item-unit" placeholder="Satuan" value="${item.unit}">
-            `;
-            shoppingListContainer.appendChild(newRow);
-        }
+            try {
+                const parts = hoursString.toLowerCase().split(',');
+                const dayPart = parts[0].trim();
+                const timePart = parts[1].trim();
+                
+                let [startHour, endHour] = timePart.split('-').map(t => {
+                    const [h, m] = t.trim().split(':');
+                    return parseInt(h, 10) * 100 + parseInt(m, 10);
+                });
+                
+                // Handle 24:00 sebagai akhir hari (2400)
+                if (endHour === 0) endHour = 2400;
 
-        function handleScheduleChange() {
-            scheduleSection.classList.toggle('hidden', document.querySelector('input[name="schedule-type"]:checked').value !== 'nanti');
-            if(document.querySelector('input[name="schedule-type"]:checked').value === 'nanti') {
-                const now = new Date();
-                now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
-                scheduleDateTimeEl.min = now.toISOString().slice(0, 16);
-            }
-        }
+                const dayRange = dayPart.split('-').map(d => daysMap[d.trim()]);
+                let isActiveDay = false;
 
-        function loadHistory() {
-            const history = JSON.parse(localStorage.getItem('sifoodOrderHistory')) || [];
-            historyListEl.innerHTML = '';
-            clearHistoryBtn.classList.toggle('hidden', history.length === 0);
-
-            history.forEach(order => {
-                const li = document.createElement('li');
-                li.classList.add('history-item');
-                li.dataset.orderId = order.id;
-
-                let detailsHtml = '';
-                if (order.service === 'Titip Beli') {
-                    let shoppingListHtml = '';
-                    if (order.shoppingList && order.shoppingList.length > 0) {
-                        shoppingListHtml = `<ul>${order.shoppingList.map(item => `<li>${item.qty} ${item.unit} ${item.name}</li>`).join('')}</ul>`;
+                if (dayRange.length === 2) {
+                    if (dayRange[0] <= dayRange[1]) {
+                        isActiveDay = currentDay >= dayRange[0] && currentDay <= dayRange[1];
+                    } else {
+                        isActiveDay = currentDay >= dayRange[0] || currentDay <= dayRange[1];
                     }
-                    const shoppingCostInfo = order.shoppingCost > 0 ? `<p><strong>Perkiraan Belanja:</strong> ${formatCurrency(order.shoppingCost)}</p>` : '';
-                    detailsHtml = `<div class="details-block">${shoppingListHtml}${shoppingCostInfo}</div>`;
-                } else if (order.service === 'Kirim Barang') {
-                    const codInfo = order.codCost > 0 ? `<p><strong>Jumlah COD:</strong> ${formatCurrency(order.codCost)}</p>` : '';
-                    const shippingPayerInfo = `<p><strong>Ongkir Dibayar:</strong> ${order.shippingPayer}</p>`;
-                    detailsHtml = `<div class="details-block"><p><strong>Info Barang:</strong> ${order.itemInfo}</p>${shippingPayerInfo}<p><strong>Status Bayar:</strong> ${order.codStatus}</p>${codInfo}</div>`;
-                } else if (order.service === 'Ojek' && order.ojekNotes) {
-                    detailsHtml = `<div class="details-block"><p><strong>Catatan:</strong> ${order.ojekNotes}</p></div>`;
+                } else {
+                    isActiveDay = currentDay === dayRange[0];
                 }
 
-                li.innerHTML = `
-                    <button class="reorder-btn">Order Ulang</button>
-                    <p><strong>Dipesan:</strong> ${order.timestamp}</p>
-                    <p><strong>Jadwal:</strong> ${order.scheduleInfo}</p>
-                    <p><strong>Layanan:</strong> ${order.service}</p>
-                    <p><strong>${order.service === 'Titip Beli' ? 'Belanja' : 'Jemput'}:</strong> ${order.pickupLocation.text} (${order.pickupDetail})</p>
-                    <p><strong>Antar:</strong> ${order.dropoffLocation.text} (${order.dropoffDetail})</p>
-                    ${detailsHtml}
+                if (!isActiveDay) return false;
+                
+                return currentTime >= startHour && currentTime < endHour;
+
+            } catch (e) {
+                console.error("Error parsing hours:", hoursString, e);
+                return false;
+            }
+        }
+        
+        function showOrderPage(store) {
+            mainPage.style.display = 'none';
+            orderPage.style.display = 'block';
+            
+            pannedImage.src = store.image;
+            storeNameOutput.value = store.name;
+            resetOrderForm();
+            
+            // Tambahkan state ke history browser
+            history.pushState({page: 'order'}, `Order ${store.name}`, '#order');
+            
+            window.scrollTo(0, 0);
+        }
+
+        function showMainPage() {
+            mainPage.style.display = 'block';
+            orderPage.style.display = 'none';
+        }
+        
+        function renderStoreList() {
+            storeListContainer.innerHTML = '';
+            stores.forEach(store => {
+                const card = document.createElement('div');
+                card.className = 'store-card';
+                
+                const isOpen = parseHoursAndCheckOpen(store.hours);
+                if (!isOpen) {
+                    card.classList.add('closed');
+                }
+
+                card.innerHTML = `
+                    <div class="store-image-container">
+                        <img src="${store.image}" alt="Gambar ${store.name}" loading="lazy">
+                        <div class="closed-overlay">TUTUP</div>
+                    </div>
+                    <div class="store-card-info">
+                        <h3>${store.name}</h3>
+                        <p><strong>Alamat:</strong> ${store.location}</p>
+                        <p><strong>Jam Buka:</strong> ${store.hours}</p>
+                    </div>
                 `;
-                historyListEl.appendChild(li);
+                
+                if (isOpen) {
+                    card.addEventListener('click', () => {
+                        showOrderPage(store);
+                    });
+                }
+                
+                storeListContainer.appendChild(card);
             });
         }
         
-        function saveOrderToHistory(orderData) {
-            let history = JSON.parse(localStorage.getItem('sifoodOrderHistory')) || [];
-            const newOrder = { ...orderData, id: new Date().getTime() };
-            history.unshift(newOrder); 
-            if (history.length > 10) history.pop();
-            localStorage.setItem('sifoodOrderHistory', JSON.stringify(history));
-            loadHistory();
+        function addNewRow() {
+            const rowCount = orderItemsTableBody.rows.length;
+            const newRow = orderItemsTableBody.insertRow(rowCount);
+            
+            newRow.innerHTML = `
+                <td>${rowCount + 1}</td>
+                <td><input type="text" class="item-name" placeholder="cth: mie ayam"></td>
+                <td><input type="number" class="item-quantity" placeholder="cth: 2" min="1"></td>
+                <td><input type="text" class="item-notes" placeholder="cth: bks, kg, ltr"></td>
+            `;
+            
+            newRow.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', handleRowInput, { once: true });
+            });
         }
 
-        function handleHistoryClick(e) {
-            if (!e.target.classList.contains('reorder-btn')) return;
+        function handleRowInput(e) {
+             const currentRow = e.target.closest('tr');
+             if (currentRow.isSameNode(orderItemsTableBody.lastElementChild)) {
+                 addNewRow();
+             }
+        }
+        
+        function resetOrderForm(){
+            orderItemsTableBody.innerHTML = '';
+            addNewRow();
+            deliveryAddress.value = '';
+        }
 
-            const orderId = e.target.closest('.history-item').dataset.orderId;
-            const history = JSON.parse(localStorage.getItem('sifoodOrderHistory')) || [];
-            const order = history.find(o => o.id == orderId);
+        function showNotification(message) {
+            const banner = document.getElementById('notification-banner');
+            banner.textContent = message;
+            banner.classList.add('show');
+            setTimeout(() => {
+                banner.classList.remove('show');
+            }, 3000);
+        }
 
-            if (!order) {
-                return showToast('Gagal memuat data pesanan lama.', 'error');
+        submitButton.addEventListener('click', () => {
+            const storeName = storeNameOutput.value;
+            const address = deliveryAddress.value.trim();
+            const orderItems = [];
+            let formIsValid = true;
+
+            const rows = orderItemsTableBody.rows;
+            for (let i = 0; i < rows.length; i++) {
+                const name = rows[i].querySelector('.item-name').value.trim();
+                const quantity = rows[i].querySelector('.item-quantity').value.trim();
+                const notes = rows[i].querySelector('.item-notes').value.trim();
+
+                if (name || quantity || notes) {
+                     if (!name || !quantity) {
+                        formIsValid = false;
+                        showNotification(`Harap isi Nama & Jumlah untuk Barang No. ${i + 1}.`);
+                        break;
+                     }
+                     orderItems.push({ name, quantity, notes: notes || '-' });
+                }
             }
 
-            const serviceBtnToClick = document.querySelector(`.service-btn[data-service="${order.service}"]`);
-            if (serviceBtnToClick) {
-                serviceBtnToClick.click();
-            } else {
+            if (!formIsValid) return;
+            if (orderItems.length === 0) {
+                showNotification('Harap isi setidaknya satu barang pesanan.');
                 return;
             }
-
-            pickupLocationEl.value = order.pickupLocation.value;
-            pickupDetailEl.value = order.pickupDetail;
-            dropoffLocationEl.value = order.dropoffLocation.value;
-            dropoffDetailEl.value = order.dropoffDetail;
-
-            if (order.scheduleType === 'nanti' && order.scheduleDateTime) {
-                document.querySelector('input[name="schedule-type"][value="nanti"]').checked = true;
-                scheduleDateTimeEl.value = order.scheduleDateTime;
-            } else {
-                document.querySelector('input[name="schedule-type"][value="sekarang"]').checked = true;
-            }
-            handleScheduleChange();
-
-            if (order.service === 'Titip Beli') {
-                shoppingCostEl.value = order.shoppingCost || '';
-                shoppingListContainer.innerHTML = `<div class="shopping-item-row shopping-item-header"><span>No.</span><span>Nama Barang</span><span>Jumlah</span><span>Satuan</span></div>`;
-                if (order.shoppingList && order.shoppingList.length > 0) {
-                    order.shoppingList.forEach(item => addShoppingListItem(item));
-                }
-                addShoppingListItem(); 
-
-            } else if (order.service === 'Kirim Barang') {
-                itemInfoEl.value = order.itemInfo;
-                document.querySelector(`input[name="shipping-payer"][value="${order.shippingPayer}"]`).checked = true;
-                document.querySelector(`input[name="cod-status"][value="${order.codStatus}"]`).checked = true;
-                
-                handleCodStatusChange();
-                if (order.codStatus === 'Belum Lunas (COD)') {
-                    codCostEl.value = order.codCost;
-                }
-            } else if (order.service === 'Ojek') {
-                ojekNotesEl.value = order.ojekNotes || '';
+            if (!address) {
+                showNotification('Alamat antar wajib diisi.');
+                deliveryAddress.focus();
+                return;
             }
             
-            updateTotal();
+            const storeData = stores.find(s => s.name === storeName);
 
-            window.scrollTo({ top: 0, behavior: 'smooth' }); 
-            showToast('Data pesanan telah berhasil dimuat ulang.', 'success');
-        }
+            const now = new Date();
+            const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+            const dayName = days[now.getDay()];
+            const formattedDate = `${dayName}, ${now.toLocaleDateString('id-ID')} ${now.toLocaleTimeString('id-ID', { hour: '2-digit', minute:'2-digit' })}`;
 
-        function clearHistory() {
-            if (confirm('Anda yakin ingin menghapus semua riwayat pesanan?')) {
-                localStorage.removeItem('sifoodOrderHistory');
-                loadHistory();
+            let message = `*--- ORDER BARU ---*\n`;
+            message += `*Waktu Order:* ${formattedDate}\n\n`;
+            message += `*Toko:* ${storeName}\n`;
+            // -- Menambahkan link gambar ke pesan WA --
+            if (storeData) {
+                message += `*Gambar Toko:* ${storeData.image}\n`;
             }
-        }
-
-        function submitOrder() {
-            const orderState = {}; 
-
-            if (!selectedService) return showToast('PENTING: Pilih jenis layanan terlebih dahulu!');
+            message += `*Alamat Antar:* ${address}\n\n`;
+            message += `*Pesanan:*\n`;
             
-            const pickupLocText = pickupLocationEl.options[pickupLocationEl.selectedIndex]?.text;
-            const dropoffLocText = dropoffLocationEl.options[dropoffLocationEl.selectedIndex]?.text;
+            orderItems.forEach((item, index) => {
+                message += `${index + 1}. *${item.name}*\n`;
+                message += `   - Jumlah: ${item.quantity}\n`;
+                message += `   - Ket: ${item.notes}\n`;
+            });
+            message += `\nTerima kasih. Mohon segera diproses.`;
+
+            const orderData = { id: Date.now(), store: storeName, address: address, items: orderItems, timestamp: formattedDate };
+            saveOrderToHistory(orderData);
             
-            if (!pickupLocationEl.value) return showToast(`PENTING: Pilih lokasi ${selectedService === 'Titip Beli' ? 'belanja' : 'jemput'}!`);
-            if (!pickupDetailEl.value.trim()) return showToast(`PENTING: Isi detail lokasi ${selectedService === 'Titip Beli' ? 'belanja' : 'jemput'}! (Contoh: Nama Toko/Patokan)`);
-            if (!dropoffLocationEl.value) return showToast('PENTING: Pilih lokasi antar!');
-            if (!dropoffDetailEl.value.trim()) return showToast('PENTING: Isi detail lokasi antar! (Contoh: Nama Jalan/Nomor Rumah)');
-            
-            const scheduleType = document.querySelector('input[name="schedule-type"]:checked').value;
-            if (scheduleType === 'nanti' && !scheduleDateTimeEl.value) return showToast('PENTING: Pilih tanggal dan jam pengantaran untuk pesanan terjadwal!');
-
-            orderState.service = selectedService;
-            orderState.timestamp = new Date().toLocaleString('id-ID', { dateStyle: 'long', timeStyle: 'short' }).replace(/\./g, ':');
-            orderState.scheduleInfo = (scheduleType === 'nanti')
-                ? new Date(scheduleDateTimeEl.value).toLocaleString('id-ID', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' }).replace(/\./g, ':')
-                : 'Sekarang';
-            orderState.pickupLocation = { value: pickupLocationEl.value, text: pickupLocText };
-            orderState.pickupDetail = pickupDetailEl.value.trim();
-            orderState.dropoffLocation = { value: dropoffLocationEl.value, text: dropoffLocText };
-            orderState.dropoffDetail = dropoffDetailEl.value.trim();
-            
-            orderState.scheduleType = scheduleType;
-            if (scheduleType === 'nanti') {
-                orderState.scheduleDateTime = scheduleDateTimeEl.value;
-            }
-            
-            let totalCostForMessage = calculateFare();
-            let additionalDetails = '';
-
-            switch (selectedService) {
-                case 'Titip Beli':
-                    const shoppingItems = [];
-                    const rows = shoppingListContainer.querySelectorAll('.shopping-item-row');
-                    for (let i = 1; i < rows.length; i++) {
-                        const row = rows[i];
-                        const nameEl = row.querySelector('.shopping-item-name');
-                        const qtyEl = row.querySelector('.shopping-item-qty');
-                        const unitEl = row.querySelector('.shopping-item-unit');
-                        
-                        const name = nameEl.value.trim();
-                        const qty = qtyEl.value.trim();
-                        const unit = unitEl.value.trim();
-                        
-                        if (name || qty || unit) {
-                            if (!name) return showToast(`Lengkapi Belanjaan: Nama barang di baris ${i} wajib diisi!`);
-                            if (!qty) return showToast(`Lengkapi Belanjaan: Jumlah untuk "${name}" wajib diisi!`);
-                            if (!unit) return showToast(`Lengkapi Belanjaan: Satuan untuk "${name}" wajib diisi! (cth: pcs, kg, liter)`);
-                            shoppingItems.push({ name, qty, unit });
-                        }
-                    }
-
-                    if (shoppingItems.length === 0) return showToast('PENTING: Daftar belanjaan tidak boleh kosong! Isi minimal satu barang.');
-                    
-                    const shoppingCost = parseFloat(shoppingCostEl.value) || 0;
-                    if (shoppingCost <= 0) return showToast('PENTING: Perkiraan total harga belanja wajib diisi dengan angka yang benar!');
-                    
-                    orderState.shoppingList = shoppingItems;
-                    orderState.shoppingCost = shoppingCost;
-                    
-                    shoppingItems.forEach(item => { additionalDetails += `- ${item.name} (${item.qty} ${item.unit})\n`; });
-                    additionalDetails += `\n*PERKIRAAN BELANJA: ${formatCurrency(shoppingCost)}*\n`;
-                    totalCostForMessage += shoppingCost;
-                    break;
-
-                case 'Kirim Barang':
-                    const itemInfo = itemInfoEl.value.trim();
-                    if (!itemInfo) return showToast('PENTING: Informasi barang yang akan dikirim wajib diisi!');
-                    orderState.itemInfo = itemInfo;
-                    
-                    orderState.codStatus = document.querySelector('input[name="cod-status"]:checked').value;
-                    orderState.shippingPayer = document.querySelector('input[name="shipping-payer"]:checked').value;
-
-                    additionalDetails += `*Info Barang:* ${orderState.itemInfo}\n`;
-                    additionalDetails += `*Ongkir Dibayar Oleh:* ${orderState.shippingPayer}\n`;
-                    additionalDetails += `*Status Bayar Barang:* ${orderState.codStatus}\n`;
-
-                    if (orderState.codStatus === 'Belum Lunas (COD)') {
-                        const codCost = parseFloat(codCostEl.value) || 0;
-                        if (codCost <= 0) return showToast('PENTING: Jumlah COD wajib diisi dengan angka yang benar!');
-                        orderState.codCost = codCost;
-                        additionalDetails += `*JUMLAH COD: ${formatCurrency(codCost)}*\n`;
-                        totalCostForMessage += codCost;
-                    } else {
-                        orderState.codCost = 0;
-                    }
-                    break;
-                case 'Ojek':
-                    const ojekNotes = ojekNotesEl.value.trim();
-                    if (!ojekNotes) return showToast('PENTING: Catatan untuk Ojek wajib diisi! (Cth: "Tunggu di depan gerbang", "Pakai helm")');
-                    orderState.ojekNotes = ojekNotes;
-                    additionalDetails += `*Catatan:* ${orderState.ojekNotes}\n`;
-                    break;
-            }
-            
-            let message = `*===== ORDER BARU | SIFOOD =====*\n\n`;
-            message += `*LAYANAN :* _${orderState.service}_\n`;
-            message += `*WAKTU ORDER :* _${orderState.timestamp}_\n`;
-            message += `*JADWAL ANTAR :* _${orderState.scheduleInfo}_\n\n`;
-            message += `*------------------------------------*\n\n`;
-            message += `*▶️ ${selectedService === 'Titip Beli' ? 'LOKASI BELANJA' : 'JEMPUT DARI'}:*\n`;
-            message += `*Lokasi Utama:* ${orderState.pickupLocation.text}\n`;
-            message += `*Detail/Patokan:* ${orderState.pickupDetail}\n\n`;
-            message += `*▶️ ANTAR KE:*\n`;
-            message += `*Lokasi Utama:* ${orderState.dropoffLocation.text}\n`;
-            message += `*Detail/Patokan:* ${orderState.dropoffDetail}\n\n`;
-            message += `*▶️ DETAIL PESANAN:*\n`;
-            message += `${additionalDetails}\n`;
-            message += `*------------------------------------*\n\n`;
-            message += `*RINCIAN BIAYA*\n`;
-            message += `*Ongkos Kirim:* ${formatCurrency(calculateFare())}\n`;
-            if (orderState.service === 'Titip Beli') message += `*Perkiraan Belanja:* ${formatCurrency(orderState.shoppingCost)}\n`;
-            if (orderState.service === 'Kirim Barang' && orderState.codCost > 0) message += `*Jumlah COD:* ${formatCurrency(orderState.codCost)}\n`;
-            message += `*TOTAL ESTIMASI AKHIR: ${formatCurrency(totalCostForMessage)}*\n\n`;
-            message += `Terima Kasih telah menggunakan layanan Sifood! Orderan Anda akan segera kami proses. Mohon untuk standby. 🙏`;
-
-            saveOrderToHistory(orderState);
-            const whatsappUrl = `https://wa.me/${ADMIN_PHONE_NUMBER}?text=${encodeURIComponent(message)}`;
+            const whatsappUrl = `https://api.whatsapp.com/send?phone=${adminWhatsapp}&text=${encodeURIComponent(message)}`;
             window.open(whatsappUrl, '_blank');
+        });
+
+        function getOrderHistory() {
+            return JSON.parse(localStorage.getItem('sabanaKurirOrders')) || [];
+        }
+        function saveOrderToHistory(newOrder) {
+            let history = getOrderHistory();
+            history.unshift(newOrder);
+            history = history.slice(0, 10); // Simpan maks 10 riwayat
+            localStorage.setItem('sabanaKurirOrders', JSON.stringify(history));
+            renderOrderHistory();
+        }
+        
+        function renderOrderHistory() {
+             historyContainer.innerHTML = '';
+             const history = getOrderHistory();
+             if(history.length === 0){
+                historyContainer.innerHTML = '<p>Belum ada riwayat orderan.</p>';
+                return;
+             }
+             history.forEach(order => {
+                let itemsText = '';
+                order.items.forEach(item => {
+                    itemsText += `- ${item.name} (${item.quantity}${item.notes !== '-' ? ' ' + item.notes : ''})\n`;
+                });
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'history-item';
+                itemDiv.innerHTML = `
+                    <div class="history-header">${order.store} - ${order.timestamp}</div>
+                    <div class="history-details">
+                        <b>Alamat:</b> ${order.address}\n<b>Pesanan:</b>\n${itemsText}
+                    </div>
+                    <button class="reorder-btn" data-order-id="${order.id}">Order Ulang</button>
+                `;
+                historyContainer.appendChild(itemDiv);
+             });
+        }
+        
+        historyContainer.addEventListener('click', function(e){
+            if(e.target.classList.contains('reorder-btn')){
+                const orderId = parseInt(e.target.dataset.orderId);
+                const orderToReorder = getOrderHistory().find(o => o.id === orderId);
+                if(orderToReorder){
+                    const storeData = stores.find(s => s.name === orderToReorder.store);
+                    if (storeData) {
+                        showOrderPage(storeData);
+                        deliveryAddress.value = orderToReorder.address;
+                        orderItemsTableBody.innerHTML = '';
+                        orderToReorder.items.forEach((item, index) => {
+                            addNewRowWithValues(index, item.name, item.quantity, item.notes);
+                        });
+                        addNewRow();
+                    } else {
+                        showNotification("Toko untuk orderan ini tidak ditemukan lagi.");
+                    }
+                }
+            }
+        });
+        
+        function addNewRowWithValues(index, name, quantity, notes) {
+            const newRow = orderItemsTableBody.insertRow(index);
+            newRow.innerHTML = `
+                <td>${index + 1}</td>
+                <td><input type="text" class="item-name" value="${name}"></td>
+                <td><input type="number" class="item-quantity" value="${quantity}" min="1"></td>
+                <td><input type="text" class="item-notes" value="${notes === '-' ? '' : notes}"></td>
+            `;
+            newRow.querySelectorAll('input').forEach(input => {
+                input.addEventListener('input', handleRowInput, { once: true });
+            });
         }
 
-        // Event Listeners
-        serviceBtns.forEach(btn => btn.addEventListener('click', handleServiceSelection));
-        [pickupLocationEl, dropoffLocationEl, shoppingCostEl, codCostEl].forEach(el => el.addEventListener('input', updateTotal));
-        codStatusRadios.forEach(radio => radio.addEventListener('change', handleCodStatusChange));
-        scheduleTypeRadios.forEach(radio => radio.addEventListener('change', handleScheduleChange));
-        shoppingListContainer.addEventListener('input', handleShoppingListInput);
-        submitBtn.addEventListener('click', submitOrder);
-        historyListEl.addEventListener('click', handleHistoryClick);
-        clearHistoryBtn.addEventListener('click', clearHistory);
+        // --- Event Listeners untuk Navigasi & Tombol Kembali ---
+        backButton.addEventListener('click', () => {
+            history.back(); // Gunakan history.back() agar sinkron dengan popstate
+        });
 
-        // Inisialisasi
-        loadHistory();
+        window.addEventListener('popstate', (event) => {
+            // Jika user menekan tombol kembali di browser/ponsel,
+            // dan halaman order sedang aktif, tampilkan halaman utama.
+            if (orderPage.style.display === 'block') {
+                showMainPage();
+            }
+        });
+
+        toggleHistoryBtn.addEventListener('click', () => {
+            const isHidden = historySection.style.display === 'none' || historySection.style.display === '';
+            historySection.style.display = isHidden ? 'block' : 'none';
+            toggleHistoryBtn.textContent = isHidden ? 'Tutup Riwayat Orderan' : 'Lihat Riwayat Orderan';
+            if(isHidden) {
+                historySection.scrollIntoView({ behavior: 'smooth' });
+            }
+        });
+
+        // --- Initial Load ---
+        renderStoreList();
+        renderOrderHistory();
     });
     </script>
 </body>
