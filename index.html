@@ -216,6 +216,24 @@
             display: block;
         }
 
+        /* [BARU] CSS untuk tulisan transparan di atas gambar */
+        .image-overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: rgba(255, 255, 255, 0.75); /* Warna putih transparan */
+            font-size: 1.2em;
+            font-weight: bold;
+            text-align: center;
+            text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8); /* Bayangan agar mudah terbaca */
+            pointer-events: none; /* Penting agar tidak menghalangi gestur geser */
+            z-index: 5; /* Pastikan di atas gambar */
+            padding: 0 15px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         .order-content {
             padding: 20px;
             background-color: var(--white);
@@ -282,6 +300,7 @@
 
     <div id="order-page">
         <div id="image-viewer">
+            <div class="image-overlay-text">geser-geser layar gerakkan gambar menu</div>
             <img id="panned-image" src="" alt="Gambar Toko">
         </div>
 
