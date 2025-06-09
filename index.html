@@ -410,6 +410,10 @@
         const historySection = document.getElementById('history-section');
         const historyContainer = document.getElementById('order-history');
 
+        // --- [MODIFIKASI] Ambil elemen gambar dan overlay teksnya ---
+        const imageViewer = document.getElementById('image-viewer');
+        const imageOverlayText = document.querySelector('.image-overlay-text');
+
         const adminWhatsapp = '6281263449045';
 
         function parseHoursAndCheckOpen(hoursString) {
@@ -457,6 +461,9 @@
         function showOrderPage(store) {
             mainPage.style.display = 'none';
             orderPage.style.display = 'block';
+            
+            // --- [MODIFIKASI] Pastikan tulisan overlay terlihat saat halaman dibuka ---
+            imageOverlayText.style.display = 'block';
             
             pannedImage.src = store.image;
             storeNameOutput.value = store.name;
@@ -677,6 +684,14 @@
                 input.addEventListener('input', handleRowInput, { once: true });
             });
         }
+        
+        // --- [MODIFIKASI] Event listener untuk menyembunyikan tulisan saat gambar disentuh/digeser ---
+        imageViewer.addEventListener('mousedown', () => {
+            imageOverlayText.style.display = 'none';
+        });
+        imageViewer.addEventListener('touchstart', () => {
+            imageOverlayText.style.display = 'none';
+        });
 
         // --- Event Listeners untuk Navigasi & Tombol Kembali ---
         backButton.addEventListener('click', () => {
